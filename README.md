@@ -37,7 +37,7 @@ A colection of excersises of the FreeCodeCamp dayly challenges and the following
 1. Clone this repository:
         
     ```    BASH
-    git clone https://github.com/(add fulladress)
+    git clone https://github.com/Padrelobo418/Public-Portfolio
     ```
 
 ---
