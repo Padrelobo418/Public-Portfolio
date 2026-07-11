@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Give me a number on cents and I'll tell you the number of disctint ways to give exact change</h1>
+    <label for="amountInput">Give me number:</label>
+    <input type="number" id="amountInput" min="0" step="1" placeholder="cents">
+    <button onclick="calculate()">Calculate</button>
+    <p>You can give exact change of
+        <span id="givenNumber"></span> in <span id="result"></span> diferent ways.
+    </p>
+    <script src="334_exact_challenge.js"></script>
+</body>
+
+</html>
