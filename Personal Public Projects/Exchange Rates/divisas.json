@@ -1,5 +1,5 @@
-[
-    {
+{
+    "THB": {
         "Nombre": "Bat",
         "Código": "THB",
         "País": "Tailandia",
@@ -10,7 +10,7 @@
         "Parte": "satang",
         "Posesión": 0
     },
-    {
+    "CZK": {
         "Nombre": "Corona checa",
         "Código": "CZK",
         "País": "República Checa",
@@ -21,7 +21,7 @@
         "Parte": "haler",
         "Posesión": 0
     },
-    {
+    "DKK": {
         "Nombre": "Corona danesa",
         "Código": "DKK",
         "País": "Dinamarca, Groenlandia, Islas Feroe",
@@ -32,7 +32,7 @@
         "Parte": "øre",
         "Posesión": 0
     },
-    {
+    "ISK": {
         "Nombre": "Corona islandesa",
         "Código": "ISK",
         "País": "Islandia",
@@ -43,7 +43,7 @@
         "Parte": "aurar",
         "Posesión": 0
     },
-    {
+    "NOK": {
         "Nombre": "Corona noruega",
         "Código": "NOK",
         "País": "Noruega",
@@ -54,7 +54,7 @@
         "Parte": "øre",
         "Posesión": 0
     },
-    {
+    "SEK": {
         "Nombre": "Corona sueca",
         "Código": "SEK",
         "País": "Suecia",
@@ -65,7 +65,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "RSD": {
         "Nombre": "Dinar serbio",
         "Código": "RSD",
         "País": "Serbia",
@@ -76,7 +76,7 @@
         "Parte": "para",
         "Posesión": 0
     },
-    {
+    "AED": {
         "Nombre": "Dírham de los EAU",
         "Código": "AED",
         "País": "",
@@ -87,7 +87,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "MAD": {
         "Nombre": "Dinar marroquí",
         "Código": "MAD",
         "País": "",
@@ -98,7 +98,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "AUD": {
         "Nombre": "Dólar australiano",
         "Código": "AUD",
         "País": "",
@@ -109,7 +109,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "CAD": {
         "Nombre": "Dólar canadiense",
         "Código": "CAD",
         "País": "",
@@ -120,7 +120,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "USD": {
         "Nombre": "Dólar estadounidense",
         "Código": "USD",
         "País": "",
@@ -131,7 +131,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "HKD": {
         "Nombre": "Dólar hongkonés",
         "Código": "HKD",
         "País": "",
@@ -142,7 +142,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "SGD": {
         "Nombre": "Dólar singapurense",
         "Código": "SGD",
         "País": "",
@@ -153,7 +153,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "PLN": {
         "Nombre": "Esloti polaco",
         "Código": "PLN",
         "País": "",
@@ -164,7 +164,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "EUR": {
         "Nombre": "Euro",
         "Código": "EUR",
         "País": "",
@@ -175,7 +175,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "HUF": {
         "Nombre": "Forinto húngaro",
         "Código": "HUF",
         "País": "",
@@ -186,7 +186,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "CHF": {
         "Nombre": "Franco suizo",
         "Código": "CHF",
         "País": "",
@@ -197,7 +197,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "RON": {
         "Nombre": "Leu rumano",
         "Código": "RON",
         "País": "Rumania",
@@ -208,7 +208,7 @@
         "Parte": "banes",
         "Posesión": 0
     },
-    {
+    "GBP": {
         "Nombre": "Libra británica",
         "Código": "GBP",
         "País": "",
@@ -219,7 +219,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "EGP": {
         "Nombre": "Libra egipcia",
         "Código": "EGP",
         "País": "",
@@ -230,7 +230,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "TRY": {
         "Nombre": "Lira turca",
         "Código": "TRY",
         "País": "",
@@ -241,7 +241,7 @@
         "Parte": "kurush",
         "Posesión": 0
     },
-    {
+    "ILS": {
         "Nombre": "Nuevo séquel israelí",
         "Código": "ILS",
         "País": "",
@@ -252,7 +252,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "CLP": {
         "Nombre": "Peso chileno",
         "Código": "CLP",
         "País": "",
@@ -263,7 +263,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "COP": {
         "Nombre": "Peso colombiano",
         "Código": "COP",
         "País": "",
@@ -274,7 +274,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "PHP": {
         "Nombre": "Peso filipino",
         "Código": "PHP",
         "País": "",
@@ -285,7 +285,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "MXN": {
         "Nombre": "Peso mexicano",
         "Código": "MXN",
         "País": "",
@@ -296,7 +296,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "ZAR": {
         "Nombre": "Rand sudafricáno",
         "Código": "ZAR",
         "País": "",
@@ -307,7 +307,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "QAR": {
         "Nombre": "Rial catarí",
         "Código": "QAR",
         "País": "",
@@ -318,7 +318,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "SAR": {
         "Nombre": "Rial saudí",
         "Código": "SAR",
         "País": "",
@@ -329,7 +329,7 @@
         "Parte": "halalas",
         "Posesión": 0
     },
-    {
+    "INR": {
         "Nombre": "Rupia india",
         "Código": "INR",
         "País": "",
@@ -340,7 +340,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "IDR": {
         "Nombre": "Rupia indonesia",
         "Código": "IDR",
         "País": "",
@@ -351,7 +351,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "KZT": {
         "Nombre": "Tenge kazajo",
         "Código": "KZT",
         "País": "",
@@ -362,7 +362,7 @@
         "Parte": "",
         "Posesión": 0
     },
-    {
+    "JPY": {
         "Nombre": "Yen japonés",
         "Código": "JPY",
         "País": "Japón",
@@ -373,4 +373,4 @@
         "Parte": "",
         "Posesión": 0
     }
-]
+}
