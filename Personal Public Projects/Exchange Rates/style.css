@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: #0B1849;
+    color: #EBEDE3;
+    text-align: center;
+}
+
+#calcular {
+    min-width: 180px;
+    max-width: 250px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #E4B028;
+    border-radius: 10px;
+    background: #8B1E2D;
+    color: #EBEDE3;
+}
+
+.conetenedor {
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.tarjeta {
+    /* flex: 1 1 200px; */
+    min-width: 180px;
+    max-width: 250px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #E4B028;
+    border-radius: 10px;
+    background: #124D1C;
+    color: #E4B028;
+}
