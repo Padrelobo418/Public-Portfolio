@@ -1,0 +1,58 @@
+Writing Your First Shell Script
+Introduction to Shell Scripting
+
+Hello! Welcome to your first step into the world of shell scripting. In this lesson, you will learn how to write a basic shell script. Shell scripts are powerful tools used to automate tasks on Unix-like systems.
+
+A shell script is a file that contains a series of commands. Think of it as a way to tell your computer to perform multiple operations sequentially. By learning shell scripting, you can save time on routine tasks and even handle complex operations that would otherwise require a lot of manual effort.
+
+Before diving into specifics, it's worth noting that bash (Bourne Again Shell) is one of the most popular shells used for scripting. Other popular alternatives include zsh, sh, and ksh, but for this course, we will focus on bash.
+Creating and Running a Shell Script
+
+Let's begin by creating a simple shell script that prints "Hello, World!" to the screen. This classic example serves as a foundation, helping you understand the script's structure.
+
+Here's what the script looks like:
+Shell
+
+#!/bin/bash
+
+# Simple script to print "Hello, World!"
+echo "Hello, World!"
+
+Suppose this script is located in a file called hello_world.sh. Before running the script, you need to make it executable. To do this, navigate to the directory where the script is saved and run:
+text
+
+chmod +x hello_world.sh
+
+chmod is the command used to change file modes or access permissions, and +x adds the execute permission to the file.
+
+Finally, the command to run the script from the terminal is:
+text
+
+./hello_world.sh
+
+Running the script above results in "Hello, World!" being output by the console. In the CodeSignal IDE, clicking the "Run" and "Submit" buttons automatically calls the ./solution.sh command. This is how your solution files are run by Cosmo!
+
+Now let's look at each line of the script in more detail.
+Understanding The Shebang
+
+The shebang (#!/bin/bash) is essential in shell scripts as it defines the interpreter to be used when running the script. It is the absolute path to the interpreter's executable file. While we use /bin/bash here, you could use /bin/sh for more basic scripts or /bin/zsh for enhanced scripting functionalities. Using the appropriate interpreter ensures your script runs even on different systems.
+Adding Comments
+
+Comments in bash are preceded by a #. Adding comments in your script is good practice. It helps you and others understand the purpose and functionality of your script. Comments can be added anywhere in the script and are ignored during execution.
+
+For example:
+Shell
+
+# This is a comment that explains the purpose of the script
+echo "Hello, World!"  # This comment explains what this line does
+
+The echo command
+
+echo is a built-in command in bash and other shell environments that is used to display a line of text or a variable's value to the terminal. For example, echo "Hello, World!" will print Hello, World! to the screen. It is often used in scripts to provide informational messages, display the values of variables, or to output results to the terminal.
+Summary and Next Steps
+
+Congratulations on writing your first shell script! You've learned how to create a basic shell script, understand the shebang, add comments, and use echo to print text. These are the first steps toward mastering shell scripting.
+
+Next, you will dive into more complex scripts that use variables, control structures, and functions. Get ready to create powerful automation scripts that can simplify your workflow and increase productivity.
+
+Let's head to the practice section and reinforce your new skills with some hands-on exercises! Happy scripting!

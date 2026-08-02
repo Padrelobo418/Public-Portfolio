@@ -1,0 +1,116 @@
+Introduction to Using Variables in Shell Scripts
+
+Welcome back to the world of shell scripting. In the previous lesson, you crafted your very first shell script that printed "Hello, World!" to the screen. Today, we will take the next step by exploring how to use variables in shell scripts. This lesson will introduce you to variable declaration, reassignment, and some basic arithmetic operations.
+
+Using variables can make your scripts more dynamic and flexible, allowing you to store information, reuse values, and perform calculations. Let's get started!
+Creating and Using Variables
+
+Variables in shell scripts are used to store data that can be reused throughout the script. To define a variable in a shell script, you use the syntax:
+text
+
+variable_name=value
+
+An important distinction of bash is there cannot be spaces before or after the = sign.
+
+To access the value of a variable, use a $ before the variable name.
+
+Let's take a look at an example:
+Shell
+
+#!/bin/bash
+
+greeting="Hello"
+name="World"
+echo "$greeting, $name!"  # Prints: Hello, World!
+
+    greeting="Hello": This line creates a variable named greeting and sets its value to "Hello."
+    name="World": Another variable named name is created and assigned the value "World."
+    echo "$greeting, $name!": This command prints the variables greeting and name with a comma and exclamation mark. The output will be: Hello, World!
+
+Variables are essential for making your scripts more modular and easier to maintain. The values can be changed without modifying the entire script.
+Variable Reassignment
+
+Variables in shell scripts can be reassigned new values, making them adaptable to different scenarios. Let’s see how variable reassignment works:
+Shell
+
+#!/bin/bash
+
+greeting="Hello"
+hello=$greeting
+echo $hello  # Prints: Hello
+
+    hello=$greeting: This line assigns the value of the variable greeting to the variable hello. The $ is required to access the value stored in the greeting variable
+    echo $hello: This prints the value of hello, which is now "Hello."
+
+With variable reassignment, you can easily propagate changes throughout your script by modifying a single value.
+Defining and Using Integers
+
+Shell scripts also allow you use arithmetic operations such as +, -, *, /, and %. Variables used in arithmetic operations must be preceded by $. The $(()) syntax is used to evaluate the arithmetic expression within the parentheses. Let's take a look:
+Shell
+
+#!/bin/bash
+
+# Defining integers
+num1=2
+num2=5
+
+# Performing addition 
+sum=$(($num1 + $num2))
+echo $sum  # Prints: 7
+
+    num1=2 and num2=5: These lines create two integer variables, num1 and num2.
+    sum=$(($num1 + $num2)): This line access num1 and num2 using $. The arithmetic expression is inside $(()) to correctly evaluate the expression.
+
+Common Arithmetic Pitfalls
+
+When performing arithmetic operations in shell scripts, it's easy to run into some common pitfalls. Let's take a look at a couple of examples that illustrate mistakes to avoid:
+Shell
+
+#!/bin/bash
+
+num1=2
+num2=5
+
+x=num1+num2
+echo $x  # Prints: "num1+num2"
+
+y=$num1+$num2
+echo $y  # Prints: "2+5"
+
+    x=num1+num2: This line attempts to set the value of x as the sum of num1 and num2, but it actually assigns the string "num1+num2" to x. This is incorrect because the variable names are treated as a plain strings.
+    y=$num1+$num2: This line tries to concatenate the values of num1 and num2. Instead of adding the numbers, it results in the string "2+5". This happens because when using the $ syntax without the $(()), the shell does not perform arithmetic operations.
+
+To perform arithmetic operations correctly, always use the $(()) syntax,
+Correctly Naming Variables
+
+When naming variables in shell scripts, it's important to follow certain rules to ensure your script runs correctly. Here are the key rules for proper variable naming:
+
+    Variable names must begin with a letter (a-z, A-Z) or an underscore (_).
+    After the first character, variable names can include letters, numbers (0-9), and underscores, but no other special characters.
+    Variable names cannot contain spaces or special characters like !, @, #, $, %, ^, &, *, (, ), -, +, =, etc.
+    Variable names are case-sensitive. For example, Var and var are considered different variables.
+    Do not use reserved words or keywords (such as if, then, else, fi, for, while, etc.) as variable names, as they have special meanings in shell scripting.
+
+Proper variable naming is crucial to avoid errors and improve code readability. Let’s see some correct and incorrect ways to name variables:
+Shell
+
+#!/bin/bash
+
+# Correctly naming variables
+var=1
+var1=1
+_var_1=1
+
+# Incorrectly naming variables (commented out to avoid errors)
+# 1Var=1
+# 123=1
+# !var=1
+# @var=1
+# var*1=1
+
+Summary and Next Steps
+
+Excellent job! Today, you've learned how to create and use variables, reassign variable values, define and use integers, and understand proper variable naming conventions in shell scripts. This knowledge is fundamental for writing dynamic and flexible scripts.
+
+By mastering variables, you can already see how much more powerful your scripts can become. The next step is to dive into the practice problems to reinforce your understanding and apply what you've learned. Get ready to tackle the challenges ahead and enhance your scripting skills!
+

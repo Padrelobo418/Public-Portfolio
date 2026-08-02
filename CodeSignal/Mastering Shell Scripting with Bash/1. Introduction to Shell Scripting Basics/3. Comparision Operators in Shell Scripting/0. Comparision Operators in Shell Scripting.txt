@@ -1,0 +1,148 @@
+Comparison Operators in Shell Scripting
+Introduction to Comparison Operators
+
+Welcome to another exciting lesson in your shell scripting journey. In our previous lesson, we delved into using variables in shell scripts — learning how to store data that can be reused throughout a script. Today, we will build on that foundation by exploring Comparison Operators in shell scripting.
+
+Comparison operators are essential tools for making decisions within your scripts. They allow you to compare values and execute different actions based on the results of these comparisons. This lesson will cover numeric and string comparisons and help you understand how to incorporate these comparisons into your scripts.
+
+Let's dive in!
+Explanation of Exit Status
+
+Before diving into comparison operators, let's learn about exit statuses. An exit status is a numeric value returned by a command or a script to indicate its execution result. In the context of shell scripting, every command executed returns an exit status, which can be captured and used to determine the success or failure of that command.
+
+An exit status of 0 indicates that the command or script was successful. A non-zero exit status (usually 1) indicates that the command or script failed.
+
+In shell scripting, comparisons return an exit status to indicate the result of the comparison:
+
+    0: Indicates the comparison is true.
+    1: Indicates the comparison is false.
+
+The echo $? command in shell scripting is used to print the exit status of the last executed command.
+Numeric Comparisons
+
+Numeric comparisons are used to evaluate the relationship between two numbers. In shell scripting, we use the [] syntax with specific operators to perform these comparisons. There must be a single space at the beginning and end of the condition. Here are the most common numeric comparison operators:
+
+    -eq: Equal to
+    -ne: Not equal to
+    -gt: Greater than
+    -lt: Less than
+    -ge: Greater than or equal to
+    -le: Less than or equal to
+
+Let's see an example:
+Shell
+
+#!/bin/bash
+
+# Variables
+num1=10
+num2=20
+
+# Equal to
+[ $num1 -eq $num2 ]
+echo $?  # 1 (false)
+
+# Not equal
+[ $num1 -ne $num2 ]
+echo $?  # 0 (true)
+
+# Greater than
+[ $num1 -gt $num2 ]
+echo $?  # 1 (false)
+
+# Less than
+[ $num1 -lt $num2 ]
+echo $?  # 0 (true)
+
+# Greater than or equal to
+[ $num1 -ge $num2 ]
+echo $?  # 1 (false)
+
+# Less than or equal to
+[ $num1 -le $num2 ]
+echo $?  # 0 (true)
+
+    num1=10 and num2=20 defines two integer variables
+    For each comparison (-eq, -ne, -gt, -lt, -ge, -le), the result is checked, and the exit status is printed using echo $?.
+    echo $? prints 0 for true and 1 for false.
+
+Understanding these operators lets you incorporate numeric conditions into your scripts effectively.
+String Comparisons
+
+Just like numbers, string comparisons help you evaluate relationships between text values. Here are the most common string comparison operators:
+
+    == or =: Equal to
+    !=: Not equal to
+    -z: String is null (has a length of zero)
+    -n: String is not null (has a length greater than zero)
+
+Let's explore an example:
+Shell
+
+#!/bin/bash
+
+# Variables
+str1="Hello"
+str2="World"
+str3="Hello"
+
+# Equal to with ==
+[ "$str1" == "$str2" ]
+echo $?  # 1 (false)
+
+# Equal to with =
+[ "$str1" = "$str3" ]
+echo $?  # 0 (true)
+
+# Not equal to
+[ "$str1" != "$str2" ]
+echo $?  # 0 (true)
+
+# Null
+[ -z "$str1" ]
+echo $?  # 1 (false)
+
+# Not null
+[ -n "$str1" ]
+echo $?  # 0 (true)
+
+    str1="Hello", str2="World", and str3="Hello" Define three string variables.
+    Various string comparisons are performed, and the result is checked using echo $?.
+    The exit status indicates whether the comparison is true or false.
+
+These comparisons help you manipulate and evaluate text in your scripts.
+Quotes in String Comparisons
+
+Using quotes in string comparisons like [ "$str1" == "$str2" ] is essential for several important reasons:
+
+Handling Empty Strings
+
+Quotes help manage cases where variables might be empty or undefined. Without quotes, an empty variable can lead to syntax errors:
+Shell
+
+#!/bin/bash
+
+str1=""
+[ $str1 == "Hello" ]  # [ == "Hello" ]
+
+In this case, the shell interprets str1 as an empty value, leading to an incomplete comparison like [ == "Hello" ], which is not valid syntax.
+
+Preserving Whitespaces
+
+Quotes ensure that any whitespaces within string values are preserved and treated correctly. If you compare strings without quotes, the shell may treat each whitespace-separated part of the string as a distinct argument.
+Shell
+
+#!/bin/bash
+
+str1="Hello World"
+[ $str1 == "Hello World" ]  # [ Hello == Hello World ]
+
+Here, str1 is split into two arguments: Hello and World. The comparison [ Hello == Hello World ] is not valid syntax and will lead to an error.
+Summary and Next Steps
+
+Great job! In today's lesson, you learned how to perform numeric and string comparisons in shell scripts. You explored different operators and saw how these comparisons can make your scripts more powerful and versatile.
+
+Armed with this knowledge, you're ready to dive into practice problems to reinforce your learning and hone your scripting skills. The upcoming exercises will challenge you to apply these comparison operators in various scenarios, helping you gain a deeper understanding.
+
+Let's jump into the practice section and start applying what you've learned. Happy scripting!
+
