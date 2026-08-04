@@ -1,0 +1,34 @@
+body {
+    color: #FBC02D;
+    background-color: #C62828;
+    padding: 8px;
+}
+
+.img {
+    text-align: center;
+}
+
+blockquote {
+    text-align: right;
+}
+
+.right {
+    text-align: right;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+table {
+    margin: auto;
+    text-align: left;
+    border-style: solid;
+    border: 2px;
+    border-color: #FF8F00;
+}
