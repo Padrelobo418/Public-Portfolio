@@ -1,0 +1,223 @@
+Introduction to Arrays and Looping Constructs in Shell Scripting
+
+Hello! In this lesson, we will explore the powerful concepts of arrays and looping constructs in shell scripting. These are essential tools that will help you manage and manipulate data efficiently within your scripts. By the end of this lesson, you'll be able to handle arrays, iterate over their elements, and utilize different looping constructs to automate repetitive tasks.
+
+Arrays allow you to store multiple items in a single variable, making it easier to handle lists of data. Looping constructs such as for and while loops enable you to execute a block of code multiple times, adding flexibility and power to your scripts.
+
+Let's start our journey into arrays and looping constructs!
+Syntax for Creating Arrays
+
+In shell scripting, creating an array involves declaring a variable and assigning it multiple values enclosed in parentheses. Each value is separated by a space. Here’s the general syntax:
+Shell
+
+#!/bin/bash
+computers=("Dell" "HP" "Lenovo")
+
+You can add elements to an array using +=. For example:
+Shell
+
+#!/bin/bash
+computers=("Dell" "HP" "Lenovo")
+computers+=("Mac")
+
+Now the array also includes the value "Mac".
+Array Length and Printing
+
+Often you need to find the length of an array or print out all of its contents. You can access the length of an array using ${#array_name[@]}. To print the contents of an array use ${array_name[@]}. Let's take a look:
+Shell
+
+#!/bin/bash
+computers=("Dell" "HP" "Lenovo")
+computers+=("Mac")
+echo "Number of computers: ${#computers[@]}"
+echo "All computers: ${computers[@]}"
+
+    ${#computers[@]} accesses the number of elements using the ${#array_name[@]} syntax
+    ${computers[@]} accesses all the elements of the array using the ${array_name[@]} syntax.
+
+This script prints out
+text
+
+Number of computers: 4
+All computers: Dell HP Lenovo Mac
+
+Array Indexing
+
+Array indexing is the method of accessing individual elements in an array using their position, known as the index. Similar to other coding languages, the first element is at index 0. To access an element of an array use ${array_name[index_number]}. Let's take a look:
+Shell
+
+#!/bin/bash
+computers=("Dell" "HP" "Lenovo")
+echo "The first computer is: ${computers[0]}" 
+echo "The second computer is: ${computers[1]}" 
+echo "The third computer is: ${computers[2]}" 
+
+The output of this script is:
+text
+
+"The first computer is: Dell"
+"The second computer is: HP"
+"The third computer is: Lenovo"
+
+With this understanding of arrays, let's shift our focus to loops.
+Using While Loops
+
+The while loop in shell scripting allows you to execute a block of code repeatedly as long as a given condition is true. It’s useful for cases where the number of iterations is not known beforehand and depends on certain conditions. The syntax structure of a while loop is:
+Shell
+
+#!/bin/bash
+while [ condition ]
+do
+    command1
+    command2
+    ...
+done
+
+    condition is a test expression that is evaluated before each iteration. The loop continues as long as this condition is true.
+    The do...done block contains the commands to be executed as long as the condition is true.
+
+Let's look at an example:
+Shell
+
+#!/bin/bash
+
+counter=1
+
+# Start the while loop
+while [ $counter -le 3 ]
+do
+    echo "Counter: $counter" 
+    # Increment the counter
+    ((counter++))
+done
+
+    counter=1 creates a variable named counter is initialized to 1. This variable will control the number of iterations in the loop.
+    while [ $counter -le 3 ]: The while loop starts with the condition [ $counter -le 3 ]. The loop will continue to execute as long as the value of counter is less than or equal to (-le) 3.
+    do marks the start of the block of commands to run for each iteration
+    echo "Counter: $counter": Inside the loop, the value of the counter variable is printed
+    ((counter++)): This command increments the counter variable by 1.
+    done: This marks the end of the while loop. The loop then checks the condition [ $counter -le 3 ] again. If it is true, the loop executes again; otherwise, it stops.
+
+The output of the script is:
+text
+
+Counter: 1
+Counter: 2
+Counter: 3
+
+It is important to properly increment the counter variable so the condition eventually becomes false. If the counter variable is not updated appropriately, the while loop will run indefinitely.
+Using For Loops
+
+The for loop in shell scripting allows you to iterate until a condition is met. It’s commonly used to automate repetitive tasks by executing a block of code multiple times. The syntax of a for loop is:
+Shell
+
+#!/bin/bash
+for ((initialization; condition; update))
+do
+  commands
+done
+
+    initialization: This sets the starting value for the loop control variable. It is executed only once at the beginning of the loop.
+
+    condition: This is a boolean expression. The loop continues to execute as long as this condition is true. It is evaluated before each iteration.
+
+    update: This operation updates the loop control variable after each iteration of the loop.
+
+    do: This keyword indicates the beginning of the block of commands that will be executed in each iteration of the loop.
+
+    commands: These are the commands or code that will be executed each time the loop iterates.
+
+    done: This keyword marks the end of the loop block. After executing the commands, control goes back to the update step and the condition is checked again. If the condition is true, the loop runs again; otherwise, it terminates.
+
+Here’s a simple example to illustrate the syntax:
+Shell
+
+#!/bin/bash
+for ((x=1; x<=3; x++))
+do
+  echo "Iteration $x"
+done
+
+    The loop control variable x is initialized to 1, and the loop continues as long as x is less than or equal to 3. The variable x is incremented by 1 after each iteration.
+    echo "Iteration $x": This command prints the current value of x during each iteration.
+    done: This marks the end of the loop. The loop will repeat until the condition x<=3 is no longer true.
+
+The output of the script is:
+text
+
+Iteration 1
+Iteration 2
+Iteration 3
+
+Using "for in" loops
+
+The for in loop in shell scripting allows you to iterate over a sequence of values or elements. The syntax of a for loop is:
+Shell
+
+#!/bin/bash
+for variable in list
+do
+    command1
+    command2
+    ...
+done
+
+    variable is a loop control variable that takes the value of each element in the list one by one.
+    list can be a sequence of numbers, strings, or an array.
+    The do...done block contains the commands to be executed in each iteration.
+
+Let's see a concrete example looping over a range of numbers. A range is defined as {start..end}. Unlike some coding languages, end is inclusive. Let's take a look:
+Shell
+
+#!/bin/bash
+# Script to demonstrate for loop
+for i in {1..5}
+do
+  echo "Iteration $i"
+done
+
+    for i in {1..5}: The loop control variable i takes values from 1 to 5.
+    do ... done: This specifies the block of code to run for each iteration
+    echo "Iteration $i": Prints the current iteration number.
+
+The output of the above script is:
+text
+
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+
+Looping Through Arrays
+
+Combining arrays and loops, you can iterate over array elements by combining for in with "${array_name[@]}". Here's an example:
+Shell
+
+#!/bin/bash
+# Looping through array
+computers=("Dell" "HP" "Lenovo")
+
+for computer in "${computers[@]}"
+do
+    echo "$computer"
+done
+
+    for computer in "${computers[@]}": The for loop starts with the control variable computer.
+    do ... done: The code inside this block is run during each iteration.
+    echo "$computer": The loop prints the current value of the $computer variable from the computers array
+
+The output of the script is:
+text
+
+Dell
+HP
+Lenovo
+
+Summary and Next Steps
+
+Great job! In this lesson, you've learned the fundamentals of arrays and looping constructs in shell scripting. You now know how to declare and access arrays, use for loops and while loops, and iterate over array elements.
+
+These skills are crucial for automating tasks and handling complex data in your scripts. Arrays allow you to manage multiple items efficiently, while loops enable you to perform repetitive tasks seamlessly.
+
+Now, it's time to apply what you've learned! Proceed to the practice section to reinforce your understanding with hands-on exercises. Get ready to enhance your scripting skills further. Happy coding!

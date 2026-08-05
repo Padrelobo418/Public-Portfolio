@@ -1,0 +1,117 @@
+Introduction to Control Structures and Logical Operators
+
+In this lesson, we will delve into an essential aspect of shell scripting — Control Structures and Logical Operators. Control structures such as if, elif, and else allow you to make decisions within your scripts, enabling them to respond intelligently based on different conditions. Additionally, logical operators like && (AND) and || (OR) help you combine multiple conditions to create more complex logic.
+
+Let's get started!
+
+
+Syntax of if/elif/else Statements
+
+The if/elif/else control structure allows you to perform different actions based on various conditions. Here’s the syntax:
+Shell
+
+if [ condition1 ]
+then
+    # Commands to execute if condition1 is true
+elif [ condition2 ]
+then
+    # Commands to execute if condition1 is false and condition2 is true
+else
+    # Commands to execute if both condition1 and condition2 are false
+fi
+
+Each condition must be enclosed in []. After the condition, the then keyword specifies the code to execute if the condition evaluates to 0 (true).
+
+All control structures must start with an if statement. The elif and else statements are optional. Each elif condition is checked until one of the conditions evaluates to true. If none of the if or elif conditions are true, the else statement is executed.
+
+The control structure must end with fi.
+
+
+Using If-Else Statements
+
+Let's take a look at an example to determine if a number is positive, negative, or neither.
+Shell
+
+#!/bin/bash
+# Script to demonstrate if-else control structure
+number=5
+
+if [ $number -gt 0 ]
+then
+   echo "The number is positive"  # Prints: "The number is positive"
+elif [ $number -lt 0 ]
+then
+   echo "The number is negative"  # This won't execute
+else
+   echo "The number is zero"  # This won't execute
+fi
+
+    number=5 initializes the variable number with the value 5.
+    The if statement checks if number is greater than 0.
+    If true, it prints "The number is positive".
+    If the first condition is false, the elif statement checks if number is less than 0.
+    If the elif condition is also false, the else statement executes, printing "The number is zero".
+
+
+Introducing Logical Operators
+
+Logical operators allow you to combine multiple conditions in your control structures. The && (AND) operator ensures both conditions must be true, while the || (OR) operator requires at least one condition to be true.
+
+Let's examine how they work:
+
+Using the && Operator
+
+The && (AND) operator is used to combine multiple conditions in a control structure such that all the conditions must be true for the block of commands to execute. For example:
+Shell
+
+#!/bin/bash
+# Variables
+num1=10
+num2=20
+str1="Hello"
+str2="World"
+
+# Using && (AND) Operator
+if [ $num1 -lt $num2 ] && [ "$str1" != "$str2" ]
+then
+    echo "num1 is less than num2 AND str1 is not equal to str2"  # Prints: "num1 is less than num2 AND str1 is not equal to str2"
+else
+    echo "Condition is false"  # This won't execute
+fi
+
+    num1 is 10, num2 is 20, str1 is "Hello", and str2 is "World".
+    The if statement checks if num1 is less than num2 AND str1 is not equal to str2.
+    Both conditions are true, so the script prints: "num1 is less than num2 AND str1 is not equal to str2".
+
+Using the || Operator
+
+The || (OR) operator is used to combine multiple conditions in a control structure such that at least one of the conditions must be true for the block of commands to execute. For example:
+Shell
+
+#!/bin/bash
+
+# Variables
+num1=10
+num2=20
+
+# Using || (OR) Operator
+if [ $num1 -gt 5 ] || [ $num2 -lt 5 ]
+then
+    echo "num1 is greater than 5 OR num2 is less than 5"  # Prints: "num1 is greater than 5 OR num2 is less than 5"
+else
+    echo "Neither condition is true"  # This won't execute
+fi
+
+    The if statement checks if num1 is greater than 5 OR num2 is less than 5.
+    Since num1 is indeed greater than 5, the script prints: "num1 is greater than 5 OR num2 is less than 5".
+
+Summary and Next Steps
+
+Excellent work! In this lesson, you explored the fundamental concepts of control structures and logical operators in shell scripting. You learned about if-else statements and how to combine conditions using && and || operators.
+
+These constructs are powerful tools that enable you to write more intelligent and responsive scripts. Understanding and applying these concepts will greatly enhance your ability to automate tasks and solve real-world problems.
+
+Now, it's time to put your newfound knowledge to the test! Move on to the practice sections where you will apply what you've learned through hands-on exercises. Happy scripting!
+
+
+    

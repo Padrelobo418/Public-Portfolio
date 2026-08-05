@@ -1,0 +1,160 @@
+Functions in Shell Scripts
+
+Welcome to this lesson about functions in shell scripts, a powerful concept that helps you organize your code efficiently. Functions allow you to group commands into reusable blocks, making your scripts cleaner and easier to manage. By the end of this lesson, you'll have a solid grasp of creating and using functions in your shell scripts.
+
+Let's dive in!
+
+Introduction to Functions
+
+Functions in shell scripts are similar to those in other programming languages. They help you encapsulate code, making it modular, reusable, and easier to debug. Think of a function as a mini-script within your main script that you can call whenever needed.
+Defining and Calling Functions
+
+The basic syntax for defining a function in shell scripts is straightforward. Here’s how you can define and call a simple function:
+Shell
+
+#!/bin/bash
+# Defining a function
+function_name() {
+  # Commands to be executed
+}
+
+# Calling the function
+function_name
+
+Let's start by defining a simple function:
+Shell
+
+#!/bin/bash
+# Defining a function
+greet() {
+  echo "Hello"
+}
+
+greet
+
+    greet() { ... }: This block defines a function named greet.
+    echo "Hello": This command inside the function prints "Hello"
+    greet: This line calls the function greet resulting in the output "Hello".
+
+Passing Arguments to Functions
+
+In shell scripting, you cannot directly pass named parameters to functions in the same way as you might in some other programming languages. Instead, you pass positional parameters. When calling a function, each parameter is assigned a position number, starting at 1. These arguments are then accessed inside the function using $position_number. Let's take a look:
+Shell
+
+#!/bin/bash
+# Function with 1 input
+update_one() {
+  echo "Updating $1"
+}
+
+# Function with 2 inputs
+update_two() {
+    echo "Updating $1 and $2"
+}
+
+update_one "Photos"
+update_two "Photos" "Browser"
+
+    update_one is a function that takes one input parameter ($1). The function prints the string "Updating" followed by the value of the input parameter.
+
+    update_two is a function that takes two input parameters ($1 and $2). The function prints the string "Updating" followed by the values of the two input parameters, separated by "and".
+
+    update_one "Photos" calls the update_one function and the positional argument $1 is "Photos"
+
+    update_two "Photos" "Browser" calls the update_two function. The positional argument $1 is "Photos" and the positional argument $2 is "Browser".
+
+The output of this script is:
+text
+
+Updating Photos
+Updating Photos and Browser
+
+Counting Arguments with `$#`
+
+In addition to handling specific arguments, you may want to know the total number of arguments passed to a function. You can do this using the special variable $#, which holds the number of positional parameters.
+Shell
+
+#!/bin/bash
+# Function to count arguments
+count_args() {
+    echo "Number of arguments: $#"
+}
+
+count_args "Photos" "Browser" "Documents"
+
+    count_args() { ... }: This block defines a function named count_args.
+    echo "Number of arguments: $#": This command prints the total number of arguments passed to the function.
+    count_args "Photos" "Browser" "Documents" calls the count_args function with three arguments, so the output will be Number of arguments: 3.
+
+Iterating Over Arguments Using Arrays and `$@`
+
+In shell scripting, you might find yourself needing to iterate over arguments both as an array and using the $@ special parameter. You can convert the arguments to an array using args=("$@"). You can iterate over the arguments directly using "$@".
+
+Below is an example that demonstrates both methods within a function:
+Shell
+
+#!/bin/bash
+print_args() {
+  arr=("$@")
+  
+  echo "Using array indices:"
+  for x in "${arr[@]}"
+   do
+    echo "$x"
+  done
+  
+  echo "Using \$@:"
+  for y in "$@"
+  do
+    echo "$y"
+  done
+}
+
+print_args "Photos" "Browser" "Documents"
+
+    arr=("$@"): This command assigns all positional parameters to an array named arr.
+    for x in "${arr[@]}"; do: This loop iterates over each element in the arr array, printing each argument.
+    for y in "$@"; do: This loop iterates directly over the positional parameters using $@.
+
+When calling print_args "Photos" "Browser" "Documents", the output will be:
+text
+
+Using array indices:
+Photos
+Browser
+Documents
+Using $@:
+Photos
+Browser
+Documents
+
+Returning Values from Functions
+
+While functions can echo or print output directly, you can also return values using echo and capture them using command substitution. For example:
+Shell
+
+#!/bin/bash
+# Function to increase a version number
+increase_version() {
+  ((version += increment))
+  echo $version
+}
+
+version=2
+increment=3
+# Capture the return value using command substitution
+result=$(increase_version)          
+echo "Updating from version $version to $result"   # Prints: "Updating from version 2 to 5"
+
+    increase_version() { ... }: This block defines a function named increase_version.
+    ((version += increment)): This command increments the version number by the value of increment.
+    echo $version: This command prints the updated version number.
+    result=$(increase_version): This line captures the function’s output using command substitution.
+    echo "Updating from version $version to $result": This command prints the message with the original and updated version numbers.
+
+Summary and Next Steps
+
+Excellent work! In this lesson, you’ve learned the essentials of defining and calling functions in shell scripts, passing arguments to functions, and capturing return values. Functions are a crucial tool for writing efficient, modular, and maintainable shell scripts.
+
+Now, it’s your turn to practice what you've learned. Dive into the practice section to reinforce your understanding with hands-on exercises. Happy coding!
+
