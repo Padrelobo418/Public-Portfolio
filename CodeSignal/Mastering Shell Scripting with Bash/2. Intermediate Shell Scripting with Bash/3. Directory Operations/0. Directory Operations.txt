@@ -1,0 +1,300 @@
+Introduction
+
+Welcome! In this lesson, we will explore essential Directory Operations using Bash. Directories are a fundamental part of any operating system, and knowing how to manage them efficiently is crucial for any developer or system administrator. Directory operations are tasks performed on directories, such as creating, listing, navigating, and deleting them.
+
+Let's dive into the details and get you comfortable with directory operations in Bash!
+What Are Directories?
+
+Before we delve into directory operations, let's understand what directories are. Directories, also known as folders, are special types of files that serve as containers to organize and store other files and directories. They help maintain a structured and hierarchical file system, making it easier to manage and locate data.
+
+In a Unix-like operating system, the file system is structured as a tree, where directories can contain files and subdirectories. The root directory / is at the top of this tree, and every other directory or file falls within this hierarchical structure.
+Directory Structure Diagrams
+
+A directory structure diagram is a visual representation of the hierarchical organization of files and directories within a file system. It illustrates the relationship between directories (also known as folders) and files, showcasing how they are nested within each other.
+
+Let's break down the following diagram:
+text
+
+/
+└── *home
+    ├── documents
+    │   └── doc.txt
+    └── projects
+        └── p1.txt
+
+    /: The root directory, which is the top-level directory in the file system.
+        home: A subdirectory within the root directory /. This is often used to store user directories. The * indicates home is the current working directory.
+            documents: A subdirectory within the home directory.
+                doc.txt: A file located within the documents directory.
+            projects: Another subdirectory within the home directory.
+                p1.txt: A file located within the projects directory.
+
+Understanding File Paths
+
+In Unix-like operating systems, file paths specify the location of files and directories within the file system. They can be absolute or relative, and understanding the difference is essential for effectively navigating and managing files.
+
+An absolute path provides the complete address to a file or directory, starting from the root directory (/). It always begins with a / and specifies the entire directory hierarchy needed to reach the file or directory.
+
+For example, /home/projects/p1.txt is an absolute path. No matter your current directory, using this path will always lead to p1.txt.
+
+A relative path specifies the location of a file or directory in relation to the current working directory. It does not start with / and is usually shorter than an absolute path.
+
+If your current working directory is /home, the relative path projects/p1.txt will lead you to the same p1.txt as the absolute path in the previous example.
+Current Working Directory
+
+The current working directory (CWD) is a term used in Unix-like operating systems to denote the directory in which a user or a process is presently operating. It's essentially the folder you are "in" at any given time while using the command line interface.
+
+The command to print the CWD is:
+Shell
+
+#!/bin/bash
+pwd
+
+When you first open the CodeSignal IDE, the command pwd prints /usercode/FILESYSTEM because this is the default working directory in the CodeSignal environment where your code is executed.
+Listing Files in a Directory
+
+The ls command in Bash is used to list the files and directories within a specified directory. Running ls without a path lists all files and directories in the current working directory. ls can also accept a path to a directory. Let's take a look:
+
+Suppose we have the following directory structure:
+text
+
+/
+└── *home
+    ├── documents
+        └── doc.txt
+
+If our CWD is home, we can add a file and use the ls command as follows
+Shell
+
+#!/bin/bash
+
+# Creating a new file in the directory
+touch file.txt
+
+# Listing files in the directory
+ls
+
+After creating file.txt, our directory structure is:
+text
+
+/
+└── *home
+    ├── documents
+    │   └── doc.txt
+    └── file.txt
+
+The output of the ls command is:
+text
+
+documents
+file.txt
+
+You can also pass in a path to ls. For example:
+Shell
+
+#!/bin/bash
+ls /home/documents
+
+This command will print:
+text
+
+doc.txt
+
+Creating Directories
+
+Now that we understand what directories are, let's move on to creating and navigating directories.
+
+mkdir, short for "make directory" creates a new directory inside the current working directory. mkdir can also accept a path to a directory. Let's take a look:
+Shell
+
+#!/bin/bash
+mkdir projects
+ls
+
+This command creates a new directory named projects inside the current working directory. Our new directory structure is:
+text
+
+/
+└── *home
+    ├── documents
+    │   └── doc.txt
+    |── file.txt
+    └── projects       
+
+Running ls will output:
+text
+
+documents
+file.txt
+projects
+
+This shows that the projects directory was successfully added to the /home directory.
+
+You can also pass in a path to mkdir. For example:
+Shell
+
+#!/bin/bash
+mkdir -p /home/projects/project1
+ls /home/projects
+
+The mkdir command navigates to the /home/projects directory and creates a new directory called project1
+
+Our new directory structure is:
+text
+
+/
+└── *home
+    ├── documents
+    │   └── doc.txt
+    ├── file.txt
+    └── projects
+        └── project1
+
+Running ls projects results in:
+text
+
+project1
+
+mkdir -p allows you to create a directory along with any necessary parent directories that do not already exist. Without the -p option, mkdir will fail if any of the parent directories in the specified path do not exist. mkdir -p also ensures that mkdir will not fail if the directory already exists.
+Removing Directories
+
+To delete a directory in Bash, you can use either the rmdir or rm -r command depending on whether the directory is empty or not. rmdir will only remove a directory if it does not contain any files or subdirectories. Using rmdir on a non-empty directory results in an error.
+
+Recall that we created an empty project1 directory inside /home/projects. We can remove the directory as follows:
+Shell
+
+#!/bin/bash
+rmdir projects/project1
+ls projects
+
+    rmdir deletes the empty project1 directory.
+    The ls command does not return anything because the projects directory is now empty.
+
+Our new directory structure is now:
+text
+
+/
+└── *home
+    ├── documents
+    │   └── doc.txt
+    ├── file.txt
+    └── projects
+
+The rm -r command recursively removes the directory and all of its contents, including any files and subdirectories. Let's create a new directory called project2 inside our projects directory. We will then attempt to delete the projects directory. Let's take a look:
+Shell
+
+#!/bin/bash
+mkdir /home/projects/project2
+rmdir projects # Causes an error
+rm -r projects
+ls /home
+
+    The mkdir command creates a new directory named project2 inside the /home/projects directory.
+    The rmdir command attempts to delete the projects directory, but fails because the projects directory is not empty
+    rm -r projects removes the projects directory and all of its contents
+
+The output of the ls command is now:
+text
+
+documents
+file.txt
+
+Caution: Be very careful when using rm -r as this command will permanently delete the specified directories and their contents. Double-check that you are deleting the correct directory to avoid unintentional data loss.
+Navigating Directories
+
+The cd command, short for "change directory" allows you to change the current working directory. After executing this command, all subsequent commands will be executed from within the new current working directory. Suppose our CWD is /home.
+
+For example:
+Shell
+
+#!/bin/bash
+mkdir projects
+cd projects
+pwd
+
+    mkdir projects creates a new directory named projects in the current working directory.
+    cd projects changes the current working directory to the newly created projects directory. After executing this command, all subsequent commands will be executed from within the projects directory.
+
+The output of the code is:
+text
+
+/home/projects
+
+This output shows that the new current working directory has changed to the projects directory.
+Special Characters
+
+There are special characters and notations used in file paths to simplify navigation and management:
+
+    .: Refers to the current directory.
+    ..: Refers to the parent directory, one level up in the hierarchy.
+
+The . in the context of the cd command represents the current directory. While it may seem redundant to use cd . (since it simply means "change to the current directory"), it's often used in more complex scripts or operations involving relative paths.
+
+In Bash, .. represents the parent directory of the current working directory. It is used with the cd command to navigate up one level in the directory hierarchy.
+
+Suppose we have the following directory structure:
+text
+
+/
+└── home
+    └── *projects
+        ├── project1
+        └── project2
+
+Assume you are in the directory /home/projects and you want to move up to the /home directory.
+Shell
+
+#!/bin/bash
+pwd # Prints: /home/projects
+
+# Move up one directory level
+cd ..
+
+pwd # Prints: /home
+
+    The first pwd command shows the current working directory is /home/projects
+    The cd .. command changes the current working directory to the parent directory. Since you are currently in /home/projects, moving up one level will take you to /home.
+    The second pwd command confirms that the CWD is /home
+
+You can use also use .. multiple times to navigate several levels up in a single command. Suppose you are in the directory /home/projects/project1.
+Shell
+
+#!/bin/bash
+pwd # Prints: /home/projects/project1
+
+# Move up two directory levels
+cd ../..
+
+pwd # Prints: /home
+
+    The cd ../.. command changes the current working directory to the directory two levels up from the current directory.
+    Starting from /home/projects/project1, moving up one level takes you to /home/projects. Moving up another level takes you to /home.
+
+You can combine .. with other directory names to move up and then into a different directory.
+
+Assume you are in /home/projects/project1 and want to move to /home/projects/project2. The code is:
+Shell
+
+#!/bin/bash
+pwd # Prints: /home/projects/project1
+
+# Move up one directory level and then into 'project2'
+cd ../project2
+
+pwd # Prints: /home/projects/project2
+
+    The .. part of the cd ../project2 command moves you up one directory level from the current directory. Moving up one level takes you to /home/projects.
+    The /project2 part then moves you into the project2 directory within /home/projects.
+    After executing this command, your working directory is /home/projects/project2.
+
+Summary and Next Steps
+
+Great job! Today, you've learned how to:
+
+    Print the home and working directories.
+    Create and navigate directories.
+    List files in a directory.
+    Copy and move directories.
+    Clean up by removing directories and files.
+
+These skills are essential for managing your file system efficiently. Now, it's time to solidify your understanding by practicing these operations. Dive into the exercises to strengthen your skills and see these commands in action. Happy scripting!

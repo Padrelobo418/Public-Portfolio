@@ -1,0 +1,134 @@
+Introduction to File Operations in Bash
+
+Welcome! In this lesson, we will dive into essential file operations using Bash. File operations are tasks performed on files, such as creating, reading, writing, copying, and deleting them. These operations are fundamental for managing data and organizing information on a computer system. Shell scripting with Bash (Bourne Again SHell) provides a powerful and flexible way to automate and streamline file operations. By using simple commands, you can perform complex tasks efficiently, saving time and reducing the potential for human error. Bash scripting is especially useful for repetitive tasks, large-scale file management, and system administration.
+Creating a File
+
+Let's start by creating a new file.
+
+The touch command creates an empty file if the given file name doesn't already exist. If the file does already exist, touch updates the file's last modified timestamp without changing its content. Let's create a file called example.txt.
+Shell
+
+#!/bin/bash
+touch example.txt
+
+The command creates a new file called example.txt in the current working directory (We will cover directories in more detail later in this course). If example.txt already exists, this command updates its last modified timestamp.
+
+example.txt can now be opened and edited. In the practice exercises, you can open this file by clicking the ☰ icon to the right of Cosmo's message.
+Writing to a File
+
+Instead of opening the example.txt file manually and adding text, we can write to the file by using the > operator. The > operator in Bash is used for output redirection. It takes the output of a command and writes it to a specified file, overwriting the file's contents if it already exists. If the file does not exist, the > operator creates a new file with the specified name and writes the output to it. The basic syntax is:
+text
+
+command > filename
+
+We can write text to the example.txt file as follows:
+Shell
+
+#!/bin/bash
+echo "Hello, World!" > example.txt
+
+The > operator directs the output of echo into example.txt, overwriting any existing content. Opening example.txt will show:
+text
+
+Hello, World!
+
+Displaying the Content of a File
+
+Once we've created and written to a file, we might want to display its contents. The cat command in Bash is used to concatenate and display the content of files. Its primary function is to read a file and output its content to the terminal. The basic syntax is:
+text
+
+cat filename
+
+The command to display the contents of example.txt is:
+Shell
+
+#!/bin/bash
+cat example.txt
+
+When you run this command, you see:
+text
+
+Hello, World!
+
+This verifies that the content was successfully written to the file.
+Copying a File
+
+We often need to make a copy of a file. The cp command in Bash is used to copy files or directories. The basic syntax is:
+text
+
+cp source destination
+
+    source is the file or directory you want to copy.
+    destination is the location and name where the copy will be placed.
+
+To create a copy of example.txt we use the command:
+Shell
+
+#!/bin/bash
+cp example.txt example_copy.txt
+
+This command copies the contents of example.txt to a new file named example_copy.txt.
+
+We can confirm that the file was copied successfully by running:
+Shell
+
+#!/bin/bash
+cat example_copy.txt
+
+The output of the command is:
+text
+
+Hello, World!
+
+This confirms that the content was successfully copied from example.txt to example_copy.txt.
+Removing a File
+
+If we no longer need a file, we can remove it using the rm command. We can delete our original example.txt file with the following command:
+Shell
+
+#!/bin/bash
+rm example.txt
+
+We can confirm the file has been deleted by running:
+Shell
+
+#!/bin/bash
+cat example.txt
+
+The output of the command is:
+text
+
+cat: example.txt: No such file or directory.
+
+This error message confirms that the example.txt file was successfully removed.
+Clearing the Contents of a File
+
+There are times when you may want to clear the contents of a file without deleting the file itself. This can be achieved using the > operator followed by the file name. The > operator, when used alone with a file name, truncates the file to zero length, effectively clearing its contents.
+
+To clear the contents of example_copy.txt, you can use the following command:
+Shell
+
+#!/bin/bash
+> example_copy.txt
+
+After running this command, example_copy.txt will still exist but will be empty. You can confirm this by displaying the file's contents:
+Shell
+
+#!/bin/bash
+cat example_copy.txt
+
+The output of the command will be empty, confirming that the file's contents have been cleared.
+Summary and Next Steps
+
+Great job! In this lesson, you learned how to:
+
+    Create a new file using the touch command.
+    Write to a file using the > operator.
+    Display the content of a file using the cat command.
+    Copy a file using the cp command.
+    Remove a file using the rm command.
+    Clear the contents of a file using >
+
+These basic file operations are essential for any kind of shell scripting or system administration task. They form the building blocks for more complex scripts that you will learn to build as you progress through this course.
+
+Now it's time to reinforce what you've learned. Dive into the practice section to try these commands for yourself and see how they fit into larger scripts. Happy scripting!

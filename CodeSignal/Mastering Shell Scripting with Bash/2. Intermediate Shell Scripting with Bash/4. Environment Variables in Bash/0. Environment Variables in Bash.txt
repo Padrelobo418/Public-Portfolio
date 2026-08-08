@@ -1,0 +1,168 @@
+Introduction to Environment Variables in Bash
+
+Hello! In this lesson, we will delve into the topic of environment variables in Bash. Environment variables are named values that can be shared across scripts or even across your entire computer. By the end of this lesson, you'll be able to list and use common built-in environment variables, create and modify your own, add custom paths to the PATH variable, and utilize environment variables within scripts.
+
+Let's get started!
+Listing Environment Variables
+
+Environment variables are named values that can influence the way running processes behave on a computer. They are used to store system-wide values that can be accessed by any process running within the operating system. For example, they can be used to define the location of executable files, the home directory of users, and system-specific settings like language and locale information. The variables we have already seen have been local variables, meaning they can only be accessed within the current script. Environment variables are accessible from any script you run.
+
+Let's list all the environment variables available in the CodeSignal IDE. This can be achieved using the printenv command. The printenv command outputs all environment variables currently set for your shell session. These variables include system-wide variables as well as any custom variables you may have set.
+Shell
+
+#!/bin/bash
+
+# Listing all environment variables
+printenv
+
+An example output is:
+text
+
+DB_POOL_HOST=db
+HOSTNAME=b24194bbcde5
+LANGUAGE=en_US:en
+PWD=/usercode/FILESYSTEM
+_=/usr/bin/printenv
+HOME=/root
+LANG=en_US.UTF-8
+PATH=/root/.nvm/versions/node/v18.12.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+NODE_VERSION=18.12.1
+
+All of these variables are accessible from any script you run.
+Commonly Used Built-in Environment Variables
+
+Bash comes with several built-in environment variables that are universally useful. Here are a few commonly used ones:
+
+    HOME: Represents the home directory of the current user.
+    SHELL: Represents the path of the current shell.
+    PWD: Represents the current working directory.
+
+You can display the values of these variables using the echo command.
+Shell
+
+#!/bin/bash
+
+echo $HOME  # Prints: /root
+echo $SHELL  # Prints: /bin/bash
+echo $PWD  # Prints: /usercode/FILESYSTEM
+
+    The HOME environment variable represents the home directory of the current user. In this case, it prints /root, indicating that the current user is root, and their home directory is located at /root.
+
+    The SHELL environment variable is /bin/bash which is the file path to the current shell being used. This variable indicates that bash will be used when a new shell session is started.
+
+    The value of the PWD environment variable is /usercode/FILESYSTEM, indicating that the current working directory is /usercode/FILESYSTEM.
+
+The PATH Environment Variable
+
+The PATH variable is an essential environment variable in Unix-like operating systems that tells the shell which directories to search for executable files when a command is entered. When you run a command in the terminal, the shell looks through the directories listed in the PATH variable, in order, until it finds an executable file that matches the command name.
+
+The PATH variable contains a colon (:) separated list of directory paths. For example:
+Shell
+
+#!/bin/bash
+
+echo $PATH  
+
+The output is:
+text
+
+/root/.nvm/versions/node/v18.12.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+When any Bash command like echo, cat, or touch is run, the shell looks through the following directories for an executable file named echo, cat, or touch. Let's inspect this output:
+
+    /root/.nvm/versions/node/v18.12.1/bin: Directory containing Node.js executables.
+    /usr/local/sbin: Directory for local system administrator binaries.
+    /usr/local/bin: Directory for locally installed executables.
+    /usr/sbin: Directory for essential system binaries for root.
+    /usr/bin: Directory for user binaries.
+    /sbin: Directory for essential system binaries.
+    /bin: Directory for essential user binaries.
+
+Creating and Modifying Environment Variables
+
+Creating and modifying environment variables is straightforward. You use the export command to set or change the value of an environment variable. For example:
+Shell
+
+#!/bin/bash
+
+# Creating a new environment variable
+export MY_VAR="Hello, Bash!"
+echo $MY_VAR  # Prints "Hello, Bash!"
+
+    export MY_VAR="Hello, Bash!": Creates a new environment variable MY_VAR and sets its value to "Hello, Bash!".
+    echo $MY_VAR: Prints the value of MY_VAR.
+
+With MY_VAR set as an environment variable, you can access MY_VAR from any script, not just the current one.
+Adding to the PATH Variable
+
+The PATH variable is an essential environment variable that tells the shell where to look for executable files. Suppose we want to create our own Bash command called greet. To do this, we need to add the file path to the greet executable to the PATH variable.
+
+Let's first create a file called greet.sh located at /usercode/FILESYSTEM that simply prints Hello World.
+
+/usercode/FILESYSTEM/greet.sh
+Shell
+
+#!/bin/bash
+
+echo "Hello World"
+
+Now let's update the PATH variable to also look for executable files in /usercode/FILESYSTEM, then call our greet.sh executable.
+
+solution.sh
+Shell
+
+#!/bin/bash
+
+# Adding a new directory to the PATH variable
+export PATH="$PATH:/usercode/FILESYSTEM"
+echo $PATH  # Prints the updated PATH variable
+
+chmod +x greet.sh
+greet.sh
+
+    export PATH="$PATH:/usercode/FILESYSTEM" adds /usercode/FILESYSTEM to the existing PATH variable.
+    chmod +x greet.sh ensures the script has executable permissions
+    greet.sh prompts the shell to look through all directories in PATH until it finds an executable called greet.sh, then runs it.
+
+The output of the script is:
+text
+
+/root/.nvm/versions/node/v18.12.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usercode/FILESYSTEM
+Hello World
+
+The new PATH variable now contains /usercode/FILESYSTEM and the greet.sh executable prints "Hello World"
+Using Environment Variables in Scripts
+
+Environment variables can be used within scripts to make them more dynamic and flexible. Let's create a simple script called greet.sh that uses an environment variable.
+
+solution.sh
+Shell
+
+#!/bin/bash
+
+export USER="Cosmo"
+greet.sh
+
+greet.sh
+Shell
+
+#!/bin/bash
+
+echo Hello $USER
+
+    export USER="Cosmo" creates an environment variable named USER with the value Cosmo. The $USER variable is now accessible from any script, including the greet.sh script.
+    The greet.sh command calls the executable.
+    The greet.sh script searches for the environment variable USER and prints "Hello Cosmo"
+
+Summary and Next Steps
+
+Great job! In this lesson, you learned how to:
+
+    List all environment variables using the printenv command.
+    Utilize common built-in environment variables such as HOME, SHELL, and PWD.
+    Understand the PATH variable and how it directs the shell to executable files.
+    Create and modify environment variables with the export command.
+    Add new directories to the PATH variable.
+    Use environment variables dynamically within scripts.
+
+These skills are crucial for creating flexible and dynamic bash scripts. With this solid understanding, you're now ready to dive into the practice exercises. By practicing, you'll reinforce what you've learned and gain confidence in using environment variables in your own scripts. Happy scripting!

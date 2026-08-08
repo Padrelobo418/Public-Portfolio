@@ -1,0 +1,143 @@
+Introduction
+
+Welcome! In this lesson, we will explore Input, Output, and Redirection using Bash. Scripts can take input from your keyboard, other scripts, files, and more. Understanding how to effectively manage these input sources, as well as how to redirect output to files or other commands, is crucial in automating tasks, creating efficient workflows, and building powerful scripts. By the end of this lesson, you will be able to redirect output to a file, read a file line by line, and use the pipeline (|) operator to redirect command outputs.
+
+Let's dive in and start with redirecting output.
+Understanding stdin, stdout, and stderr
+
+Bash uses the concepts of standard input (stdin), standard output (stdout), and standard error (stderr) to manage input and output streams.
+
+Standard Input (stdin) is the default source of input for a command. It is usually your keyboard input, but you can also redirect input from a file or another command.
+
+Standard Output (stdout) is the default destination of output for a command. This is usually your terminal screen, but you can also redirect it to a file or as input to another command.
+
+Standard Error (stderr) is the default destination for error messages from a command. By default, errors are displayed on your terminal screen, but you can redirect them to a file or another output stream.
+Redirecting Output to a File
+
+In the previous lesson, we saw how to use the > operator to redirect the output of an echo command to a file instead of displaying the output to the terminal. The > command overwrites the contents of the file with the output of the command. We can append more content to an existing file without overwriting it, you can use the >> operator.
+Shell
+
+#!/bin/bash
+echo "This is the first line." > output.txt
+echo "This is the second line." >> output.txt
+
+    The first echo command sends "This is the first line." to the standard output.
+    The > redirects the stdout from the terminal to output.txt, overwriting any content of the file.
+    The second echo command sends "This is the second line" to stdout.
+    The >> operator redirects the standard output and appends this output to the output.txt file.
+
+Now, the output.txt file contains:
+text
+
+This is the first line.
+This is the second line.
+
+Appending the Contents of One File to Another
+
+In addition to appending output to a file, you can also append the contents of one file to another using the cat command combined with the >> operator.
+
+Suppose we have:
+
+    A file source.txt with the contents "This is the content of source.txt."
+    A file destination.txt with the contents "This is the first line of destination.txt."
+
+The command to add the contents of source.txt to destination.txt is:
+Shell
+
+#!/bin/bash
+# Creating source.txt and destination.txt files
+echo "This is the content of source.txt" > source.txt
+echo "This is the first line of destination.txt." > destination.txt
+
+# Priting source.txt and redirecting to destination.txt
+cat source.txt >> destination.txt
+
+    cat source.txt sends "This is the content of source.txt." to stdout.
+    The >> operator redirects the standard output and appends this output to the destination.txt file.
+
+After running the command, destination.txt will be updated to:
+text
+
+This is the first line of destination.txt.
+This is the content of source.txt.
+
+Reading from a File Line by Line
+
+Reading a file line by line is useful for processing each line independently. To do this, we combine a while loop with the read command. The read command in Bash is used to read a line of input from standard input (stdin) or a file.
+
+The basic syntax of read is:
+text
+
+read variable
+
+This command reads a single line of input and assigns it to variable.
+
+Now let's read our destination.txt file line by line. To do this, we use a while loop that takes destination.txt as an input. Let's take a look:
+Shell
+
+#!/bin/bash
+while read line; do
+    echo "$line"
+done < destination.txt
+
+    while ... do: Starts the while loop, continuing until read line returns a non-zero exit code, indicating there are no more lines to read.
+    read line: Reads a line from the file destination.txt and assigns it to the variable line.
+    echo "$line": Prints the read line.
+    < destination.txt: Redirects the content of destination.txt as input to the while loop.
+
+The output of the code is:
+text
+
+This is the first line of destination.txt.
+This is the content of source.txt.
+
+Understanding the Basic Syntax of the `|` (Pipeline) Operator
+
+The pipeline operator | in Bash is used to pass the output of one command as the input to another command. This allows you to chain commands together in a sequence, transforming data step by step.
+
+The basic syntax of the pipeline operator is:
+text
+
+command1 | command2
+
+    command1: This is the first command that executes and generates output.
+    |: The pipeline operator takes the standard output (stdout) of command1 and sends it as standard input (stdin) to command2.
+    command2: This command processes the input it receives from command1.
+
+Using a Pipeline to Process Input
+
+Suppose we want to find the number of words in a file. To do this we can use the wc command. The wc command can count lines, words, and characters. To specify that we want to count words, we use -w.
+
+We can use pipelines to provide the contents of destination.txt to the wc -w command.
+Shell
+
+#!/bin/bash
+cat destination.txt | wc -w
+
+    cat destination.txt: Outputs the content of destination.txt.
+    |: Passes the output of cat file.txt to the wc -w command.
+    wc -w: Counts the number of words in the input and outputs the count.
+
+The output of the code is:
+text
+
+13
+
+Recall that the contents of destination.txt is:
+text
+
+This is the first line of destination.txt.
+This is the content of source.txt.
+
+The file contains 13 words. Using |, we successfully redirected the contents of destination.txt to the wc -w command.
+Summary and Next Steps
+
+Great job! In this lesson, you learned how to:
+
+    Redirect the output of a command to a file using the > operator.
+    Append additional output to an existing file using the >> operator.
+    Append the contents of one file to another using the cat command combined with the >> operator.
+    Read the contents of a file line by line using a while loop and the read command.
+    Use the pipeline (|) operator to pass the output of one command as input to another command.
+
+These skills are fundamental in shell scripting and will enable you to create more complex and efficient scripts. Now it's time to practice these concepts. Dive into the exercises to reinforce your understanding. Happy scripting!
