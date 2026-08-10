@@ -1,0 +1,14 @@
+{
+    "lang": {
+        "es": "es-MX",
+        "en": "en-US"
+    },
+    "title": {
+        "es": "Calculadora de Intereses",
+        "en": "Interest Calculator"
+    },
+    "welcome": {
+        "es": "Bienvenido a la calculadora de intereses, para comenzar, selecciona el cálculo que quieres realizar.",
+        "en": "Welcome to the interest calculator, selecto the option you want to calculate."
+    }
+}
