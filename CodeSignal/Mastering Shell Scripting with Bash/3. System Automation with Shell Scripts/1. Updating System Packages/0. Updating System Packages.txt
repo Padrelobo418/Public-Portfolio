@@ -1,0 +1,148 @@
+Introduction to Updating System Packages
+
+Welcome to the exciting journey into system automation with shell scripts. As part of our first step, we will delve into the process of updating system packages. We will dive into packages and package managers, then see some practical examples of how to automate keeping your packages up-to-date.
+
+Let's get started!
+Understanding Packages
+
+Packages are collections of files, metadata, and scripts used to install software on a computer. They bundle all the components necessary to run a program, including binaries, configuration files, documentation, and dependencies.
+
+Repositories are structured storage locations from which software packages can be retrieved and installed on your system. They act as central hubs where developers upload their software packages online, and users download them.
+Package Managers
+
+In Unix-like operating systems, package management systems (PMS) handle the installation, upgrade, configuration, and removal of these software packages. Advanced Packaging Tool (APT) is a package management system used for handling packages on Debian-based Linux distributions like Ubuntu. apt-get is a command-line tool provided by APT that can be used for handling packages in shell scripts. With this understanding of packages and package managers, let's start writing a script to update them.
+Viewing Installed Packages
+
+We can see the list of installed packages by running:
+Shell
+
+ apt list --installed
+
+The output of this command can be very lengthy (over 300 lines). Let's take a look at a few important lines:
+text
+
+...
+bash/focal-updates,focal-security,now 5.0-6ubuntu1.2 amd64 [installed]
+git/now 1:2.43.0-0ppa1~ubuntu20.04.1 amd64 [installed,upgradable to: 1:2.45.2-0ppa1~ubuntu20.04.1]
+...
+
+Let's break down the first line:
+
+    bash: The name of the package.
+    focal-updates,focal-security: The repositories where this version of the package is available
+    now: Indicates the status of the package (currently installed).
+    5.0-6ubuntu1.2: The version of the package that is installed.
+    amd64: The architecture for which the package is built (64-bit in this case).
+    [installed]: Indicates that the package is currently installed on your system.
+
+We can see that the bash package is up to date with the version 5.0-6ubuntu1.2. The git package is currently at version 1:2.43.0..., but we can see it is upgradeable to version 1:2.45.2....
+Updating Package List
+
+A package list is a catalog of software packages that are available from the repositories configured on your system. Before upgrading any packages to newer versions, it is important to check that your package list is up to date. Updating the package list ensures your system can identify the latest software versions from repositories, preventing missed updates, security vulnerabilities, and compatibility issues.
+
+The sudo apt-get update command updates the list of available packages and their versions, but does not install or upgrade them. When you run the command, the package list is fetched from the repositories and stored locally. This ensures your system has the latest information about available software packages, including their versions and dependencies. By keeping this list up to date, you can install and upgrade packages with confidence, knowing you are using the most current versions available.
+
+An example output of sudo apt-get update is:
+text
+
+Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://repo.mysql.com/apt/ubuntu focal InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu focal-updates In Release
+....
+Reading package lists... Done
+
+This command has added 3 entries to our package list. Let's take a look at the first one:
+
+    Hit:1 indicates that the repository at position 1 in the list of sources was successfully accessed.
+    http://archive.ubuntu.com/ubuntu: The URL of the Ubuntu repository.
+    focal: The codename for the Ubuntu release (Focal Fossa, 20.04).
+    InRelease: Indicates that the repository provides an InRelease file, which is a signed metadata file combining the Release file and its signature.
+
+With our up-to-date package list, we can now upgrade some packages.
+Upgrade Package List
+
+The sudo apt-get upgrade command is used to install the latest versions of all installed packages based on the updated package lists fetched by sudo apt-get update. The two main actions of the upgrade command are:
+
+    Installs Updates: It fetches and installs the latest versions of the packages installed on your system. This includes all packages for which newer versions are available in the repositories, but it does so without removing any existing packages or installing any new dependencies that might be needed for an upgrade.
+
+    Maintains Configuration Files: If any configuration files of the packages have been modified, it will prompt you to decide whether to keep the existing versions or replace them with the newer versions. This helps in maintaining the integrity of your custom configurations.
+
+Upgrading all these packages can take a bit of time. Before actually upgrading your system packages, it might be a good idea to simulate the upgrade to see which packages would be upgraded. Adding the -s option to our command, we can simulate the upgrade command.
+
+Running sudo apt-get -s upgrade, we get an output of 94 packages that can be upgraded. Let's take a look at a small section of the output:
+text
+
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  base-files binutils ... git git-man ...
+  .....
+94 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Inst base-files [11ubuntu5.7] (11ubuntu5.8 Ubuntu:20.04/focal-updates [amd64])
+Conf base-files (11ubuntu5.8 Ubuntu:20.04/focal-updates [amd64])
+
+The output informs you that 94 packages, including base-files and git, will be upgraded. Each package shows its current version and the new version that will be installed from the specified repositories.
+
+Let's break down the output
+
+    Reading package lists... Done
+        This line indicates that apt-get is reading the list of packages from your repositories. This list was previously updated using sudo apt-get update.
+
+    Building dependency tree
+        This step determines the dependencies of installed packages. A dependency tree is built to understand how packages depend on each other.
+
+    Reading state information... Done
+        This line confirms that apt-get has read the current state of packages on your system.
+
+    Calculating upgrade... Done
+        apt-get calculates which packages can and should be upgraded based on the updated package lists.
+
+    The following packages will be upgraded:
+        This section lists all the packages that have newer versions available and will be upgraded if you run the actual sudo apt-get upgrade command. The packages that will be upgraded are base-files, binutils, git, and so on.
+
+    94 upgraded: The total number of packages that will be upgraded.
+
+    0 newly installed: Indicates that no new packages will be installed.
+
+    0 to remove: Indicates that no packages will be removed.
+
+    0 not upgraded: Indicates that there are no packages held back that won't be upgraded.
+
+    Inst base-files [11ubuntu5.7]... indicates that the package will be installed or upgraded
+
+    Conf base-files (11ubuntu5.8.... indicates that after the package base-files is upgraded, it will be configured to integrate properly with your system.
+
+Combining All Steps
+
+Now, let’s combine all the commands into a single script so that updating system packages becomes a seamless task:
+Shell
+
+#!/bin/bash
+# Comprehensive script to update system packages
+echo "Listing all packages"
+apt list --installed  # Shows all installed packages
+
+echo "Updating package lists..."
+sudo apt-get update # Updates package lists from the repositories
+
+echo "Listing packages that will be upgraded..."
+sudo apt-get -s upgrade # Simulates the package upgrade
+
+Here, the script covers:
+
+    Listing all installed packages.
+    Updating the package lists to get the latest information from the repositories.
+    Simulating an upgrade to see which packages would be upgraded.
+
+Summary and Next Steps
+
+Great work! In this lesson, you learned how to:
+
+    Understand the structure and components of packages
+    Use apt list --installed to view the list of installed packages
+    Use sudo apt-get update to update the package list
+    Use sudo apt-get upgrade to upgrade packages
+
+Next, you will get to practice and reinforce your understanding by writing your own scripts to handle system updates. Dive into the hands-on exercises to apply what you've just learned and become more comfortable with shell scripting. Happy coding!

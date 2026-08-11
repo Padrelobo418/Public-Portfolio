@@ -1,0 +1,54 @@
+Introduction to Automating Backups
+
+Now that we've covered how to schedule tasks with cron, let's move on to another important automation task: automating backups. Backups are crucial for protecting data against accidental deletion, hardware failure, or any other unforeseen event. Automating this process can save time and ensure that backups are regularly and consistently created.
+
+Let's dive in!
+Writing the Backup Script
+
+Suppose we already have a data directory that contains files d1.txt and d2.txt. We want to create a script that automates the process of copying data from the data directory to a backup directory. The steps we need to take are:
+
+    Specify the directory to be copied
+    Specify where to store the backup data
+    Create a backup directory and copy data from the source directory to this new backup directory
+
+Let's take a look:
+
+./backup.sh
+Shell
+
+#!/bin/bash
+# Script to automate backups
+
+source_dir="$(pwd)/data"
+backup_dir="$(pwd)/backups/data_$(date '+%Y-%m-%d_%H-%M-%S')"
+
+mkdir -p "$backup_dir"
+cp -r "$source_dir"/* "$backup_dir"/
+echo "Backup completed: $backup_dir"
+
+In this script:
+
+    source_dir stores the path to the source directory containing the data to be backed up.
+    backup_dir contains the path to the backup directory, including a timestamp.
+    mkdir -p "$backup_dir" creates the backup directory if it doesn't already exist.
+    cp -r "$source_dir"/* "$backup_dir"/ copies all files from the source directory to the backup directory.
+    echo "Backup completed: $backup_dir" prints a message indicating the backup is complete.
+
+Running the Backup Script
+
+Whenever we want to make a backup of our data directory and its contents, we can run ./backup.sh
+Shell
+
+./backup.sh
+
+When we run the script, we now have a directory called /backups/data_<time_stamp> that contains copies of d1.txt and d2.txt. Before the script is executed, the user needs to be in the correct directory where the script and other data is located.
+
+You can check whether the backup was successful by listing the contents of the backups directory:
+Shell
+
+ls backups/
+
+You should see a directory with a name like data_YYYY-MM-DD_HH-MM-SS.
+Summary and Next Steps
+
+Congratulations! You've successfully created a basic backup script. We've discussed the importance of backups, set up the source data, and wrote a shell script for automating backups. In the practice section, you'll have the opportunity to reinforce what you've learned by writing and fine-tuning your backup scripts. This hands-on practice will help solidify your understanding and provide real-world applications.

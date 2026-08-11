@@ -1,0 +1,131 @@
+Introduction to Disk Usage Monitoring
+
+Welcome to this lesson on Disk Usage Monitoring. Keeping track of disk usage is essential for maintaining system health and ensuring that there is adequate storage space for applications and data. Monitoring disk usage helps system administrators detect potential issues early, avoid system crashes, and maintain optimal system performance.
+
+Let's dive in!
+Disk Usage of Filesystems with df
+
+The df command provides an overview of the disk space usage of filesystems. It shows information like total space, used space, available space, and the percentage of space used. You can use the -h option to make the output easier to read
+
+Using the df command without a file path displays the disk space usage of all mounted filesystems on the system. You can use a path to a filesystem to get the statistics for only that filesystem. Let's take a look:
+Shell
+
+#!/bin/bash
+
+# Directory to monitor
+FILESYSTEM="/usercode/FILESYSTEM"
+
+# Display the disk usage of the filesystem containing the /usercode/FILESYSTEM directory
+df $FILESYSTEM
+df -h $FILESYSTEM
+
+    df $FILESYSTEM displays the disk usage of the filesystem containing the directory specified by $FILESYSTEM.
+    df -h $FILESYSTEM uses the -h flag, which stands for "human-readable". It converts the sizes into more comprehensible units like KB, MB, or GB.
+
+The output of this code is:
+text
+
+Filesystem     1K-blocks     Used Available Use% Mounted on
+/dev/vda1      650206116 54170548 596019184   9% /usercode/FILESYSTEM
+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1       621G   52G  569G   9% /usercode/FILESYSTEM
+
+Let's break down each column:
+
+    Filesystem: The name of the filesystem or disk partition. In this case, it is /dev/vda1, which indicates a specific disk or partition.
+    Size: The total size of the filesystem, which is 621 GB in this example.
+    Used: The amount of disk space that is currently used, which is 52 GB.
+    Avail: The amount of disk space that is still available for use, which is 569 GB.
+    Use%: The percentage of the total disk space that is currently used, which is 9%.
+    Mounted on: The directory where the filesystem is mounted. In this case, it is /usercode/FILESYSTEM.
+
+Disk Usage of Files and Directories with du
+
+The df command provides statistics about certain filesystems. If you want to estimate the disk usage of files and directories we can use the du command. The -h option is used to provide a human-readable report of the disk usage for all files and directories within the specified directory. It lists each item along with its size in human-readable format.
+
+The -sh option provides a summary of the total disk usage for the specified directory in human-readable format. It does not list individual items. Instead, it gives you the total disk usage of the entire directory at the top level.
+
+Let's take a look at the disk usage of our $FILESYSTEM directory.
+Shell
+
+#!/bin/bash
+
+# Display the disk usage of all files and directories under /usercode/FILESYSTEM
+echo "Using -h option"
+du -h $FILESYSTEM
+echo ""
+echo "Using -sh option"
+du -sh $FILESYSTEM
+
+The output is:
+text
+
+Using -h option
+12K	/usercode/FILESYSTEM/.codesignal
+20K	/usercode/FILESYSTEM
+
+Using -sh option
+20K	/usercode/FILESYSTEM
+
+Let's look at the output of du -h $FILESYSTEM
+
+    12K /usercode/FILESYSTEM/.codesignal: This indicates that the .codesignal directory inside /usercode/FILESYSTEM is using 12 KB of disk space.
+    20K /usercode/FILESYSTEM: This indicates that the total disk usage of the /usercode/FILESYSTEM directory is 20 KB, which includes the space used by its contents (like the .codesignal directory).
+
+The output of the du -sh $FILESYSTEM command is: 20K /usercode/FILESYSTEM.
+This is a summarized report indicating that the total disk usage of the entire /usercode/FILESYSTEM directory is 20 KB. It does not provide a breakdown of individual files or subdirectories.
+Creating and Managing Large Files
+
+To better understand disk usage, let's test the impact of large files on disk usage. You can create a large file using the fallocate command. This command is used to preallocate space to a file. This is useful for creating large files quickly and ensuring that the necessary disk space is available for them.
+
+The general syntax of fallocate is:
+text
+
+fallocate -l <size> <filename>
+
+-l <size> specifies the size of the file to be created. The size can be specified in bytes, KB (e.g., 10K), MB (e.g., 10M), GB (e.g., 10G), etc.
+
+    <filename> is the name of the file to be created.
+
+Let's write a script that creates a directory called big_files and allocates space for a 10 GB file.
+Shell
+
+#!/bin/bash
+
+# Create a new directory with a big file, and print out disk usage statistics
+mkdir -p $FILESYSTEM/big_files
+fallocate -l 10G $FILESYSTEM/big_files/10GB_file
+echo "Using -h option"
+du -h $FILESYSTEM
+echo 
+echo "Using -sh option"
+du -sh $FILESYSTEM
+
+    mkdir -p $FILESYSTEM/big_files creates a new directory if it doesn't already exist.
+    fallocate -l 10G $FILESYSTEM/big_files/10GB_file creates a file of size 10GB.
+    du -h $FILESYSTEM and du -sh $FILESYSTEM show the updated disk usage statistics after creating the large file.
+
+The output of this script is:
+text
+
+Using -h option
+11G	/usercode/FILESYSTEM/big_files
+12K	/usercode/FILESYSTEM/.codesignal
+11G	/usercode/FILESYSTEM
+
+Using -sh option
+11G	/usercode/FILESYSTEM
+
+Using the -h option, we can see that the new directory big_files takes up approximately 11 GB of space. Using the -sh option, we see that the /usercode/FILESYSTEM now takes up 11 GB as opposed to the previous 20 KB.
+Summary and Next Steps
+
+Excellent work! You've now learned how to:
+
+    Use the df command to monitor disk space usage of filesystems.
+    Utilize the -h option with df to present information in a human-readable format.
+    Use the du command to estimate disk usage of files and directories.
+    Employ the -h and -sh options with du to provide detailed and summarized reports.
+    Create and manage large files using the fallocate command to understand their impact on disk usage.
+
+By mastering these commands, you can quickly identify disk usage issues and take appropriate actions to resolve them. This knowledge is essential for maintaining system stability and performance. Now that you've gained a solid understanding of disk usage monitoring, it's time to put your knowledge into practice. Head over to the practice section to apply what you've learned and continue honing your skills. Happy monitoring!

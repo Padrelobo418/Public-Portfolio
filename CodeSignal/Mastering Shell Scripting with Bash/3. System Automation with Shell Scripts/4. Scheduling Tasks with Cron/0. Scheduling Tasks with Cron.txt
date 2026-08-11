@@ -1,0 +1,158 @@
+Introduction to Scheduling Tasks with cron
+
+Welcome to another exciting lesson on system automation! Today, we will delve into scheduling tasks automatically using cron. If you often find yourself needing to run specific tasks at regular intervals without manual intervention, then cron is the tool for you.
+
+Cron is a time-based job scheduler in Unix-like operating systems. Users can set up and maintain automated jobs using cron syntax. While there are alternatives like at and systemd timers, cron is widely used for its simplicity and flexibility.
+
+Let's get started!
+Understanding Cron
+
+Cron allows you to schedule tasks, known as "cron jobs," to be executed at specific times or intervals. The configuration of these jobs is stored in files called "crontabs" (cron tables). Each user on a system can have their own crontab, and there's also a system-wide crontab managed by the root user. Suppose you want to run a script that backs up your computer every night. Instead of manually running the script every night, you can use cron to run the script at any time.
+Cron Syntax
+
+Cron uses a simple and powerful syntax to define job schedules. The basic format for a cron job is:
+
+* * * * * command_to_execute
+│ │ │ │ │
+│ │ │ │ └──── Day of the week (0 - 7) (both 0 and 7 mean Sunday)
+│ │ │ └────── Month (1 - 12)
+│ │ └──────── Day of the month (1 - 31)
+│ └────────── Hour (0 - 23)
+└──────────── Minute (0 - 59)
+
+Each of these fields can be specified as:
+
+    A single number: 5 means "exactly at five".
+    A range of numbers: 1-5 means "1 to 5".
+    A list of numbers: 1,2,3 means "1 or 2 or 3".
+    An asterisk (*) wildcard means "every" possible value of this field.
+    /: Specifies step values. For example, */5 in the minutes field means "every 5 minutes".
+
+Here are some examples:
+
+Run a job every day at 5 AM
+text
+
+0 5 * * * /path/to/script.sh
+
+Run a job every Monday at 3 PM
+text
+
+0 15 * * 1 /path/to/script.sh
+
+Run a job every 15 minutes
+text
+
+*/15 * * * * /path/to/script.sh
+
+Run a job every day at midnight
+text
+
+0 0 * * * /path/to/nightly_backup.sh
+
+Run a job at 10 PM on the 1st of every month
+text
+
+0 22 1 * * /path/to/monthly_job.sh
+
+Creating a Simple Cron Job
+
+Let's create a script that we will later schedule to run every minute. The print_time.sh script simply prints the current date and time to time.txt. While you can use relative paths in cron jobs, it's important to ensure that the cron job's working directory is set correctly. Using absolute paths is generally more reliable, but if you need to use relative paths, specify the working directory with cd within the cron job to avoid any issues.
+
+Here's the cron job script:
+
+print_time.sh
+Shell
+
+#!/bin/bash
+TARGET_DIR="/usercode/FILESYSTEM"
+OUTPUT_FILE="$TARGET_DIR/time.txt"
+echo $(date) >> $OUTPUT_FILE
+
+Whenever the script is run, the output of the $(date) command is written to /usercode/FILESYSTEM/time.txt.
+Scheduling Cron Jobs Syntax
+
+To schedule a cron job, we need to add it to the crontab file. The crontab -l command displays the contents of the user's crontab file, showing all the scheduled tasks and their corresponding schedules. To add a cron job we use this syntax:
+text
+
+(crontab -l; echo "<command>" ) | crontab -
+
+    crontab -l lists the current user's cron jobs.
+    echo "<command>" creates a new line with the specified cron command
+    The parentheses group the two commands together so that they are treated as a single unit.
+    | crontab - pipelines the combined output of the grouped commands to the crontab command.
+
+In essence, this command appends a new cron job to the existing list of cron jobs for the user, ensuring that any existing jobs are not overwritten but retained along with the new addition.
+Scheduling A Cron Job
+
+Now let's write another script called schedule_task.sh to set up and schedule the print_time.sh script as a cron job.
+
+We need to:
+
+    Specify the directory the script is in
+    Make the script executable
+    Start cron
+    Add the cron job to the crontab file
+
+schedule_task.sh
+Shell
+
+#!/bin/bash
+
+# Specify script path and give execute permissions
+SCRIPT_PATH="$PWD/print_time.sh"
+chmod +x $SCRIPT_PATH
+
+# Start cron
+sudo service cron start
+# Verify cron has started
+service cron status
+
+# Create the cron command
+command="*/1 * * * * $SCRIPT_PATH"
+
+# Append the cron job; handle the case when there's no existing crontab
+(crontab -l; echo "$command" ) | crontab -
+
+# Confirm cron job was added
+crontab -l
+
+Let's breakdown this script:
+
+    SCRIPT_PATH defines the absolute path to the print_time.sh file
+    chmod +x $SCRIPT_PATH makes the script executable
+    sudo service cron start starts the cron service
+    service cron status confirms cron is running
+    command defines that the print_time.sh script should run every minute
+    (crontab -l; echo "$command" ) | crontab - adds the job to the crontab
+    crontab -l prints the list of all cron jobs
+
+Cron Job Output
+
+The output of running schedule_task.sh is:
+text
+
+ * Starting periodic command scheduler cron
+   ...done.
+ * cron is running
+*/1 * * * * /usercode/FILESYSTEM/print_time.sh
+
+We see the message from running sudo service cron start and confirmation from running service cron status. The crontab -l commands prints the list of cron jobs, which in our case is just the print_time.sh job.
+
+After creating this cron job, the print_time.sh script will run every minute. The script writes $(date) to time.txt whenever it is run. Since the job runs once every minute, an example output after 3 minutes is:
+text
+
+Mon Jul 29 00:06:01 UTC 2024
+Mon Jul 29 00:07:01 UTC 2024
+Mon Jul 29 00:08:01 UTC 2024
+
+Summary and Next Steps
+
+Great job on understanding how to use cron to schedule tasks automatically. In this lesson, you learned how to:
+
+    The basics of cron and its syntax.
+    How to write cron commands to schedule events
+    How to start cron
+    How to schedule cron jobs in the crontab
+
+With this knowledge, you can automate repetitive tasks, increasing your efficiency and ensuring consistency. Now it's time to practice! Head over to the practice section and apply what you've learned to solidify your understanding. Happy coding!

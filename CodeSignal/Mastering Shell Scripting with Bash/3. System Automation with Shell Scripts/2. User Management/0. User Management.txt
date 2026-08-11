@@ -1,0 +1,92 @@
+Introduction to User Management
+
+Hello! As part of our journey into system automation with shell scripts, today's lesson focuses on User Management. In the context of a Linux system, a user refers to an entity that can log in and perform tasks on the system. Users have unique usernames and may have passwords that authenticate them. In this lesson, you will learn about the different types of users, creating new users, and switching between users. Let's dive in!
+Types of Users
+
+Each user has a set of permissions that define what actions they can perform and what files they can access. This helps in maintaining security and proper access control. There are typically two types of users:
+
+Regular Users
+These users have standard permissions and are usually given limited access to certain system functionalities to ensure security.
+
+Superuser (root)
+This user has administrative privileges, allowing them to perform any action on the system. The root user can add or remove users, install and configure software, and change system settings. sudo (short for "superuser do" or "substitute user do") is a command-line utility that allows a permitted user to execute a command as the superuser (or another user). By using sudo, users can perform administrative tasks without needing to log in as the root user.
+Displaying All Users
+
+To begin with, let's see how we can retrieve and display information about users on the system. The list of users can normally be found in the /etc/passwd file. This file is a critical configuration file that contains information about all user accounts on the system. Each line in this file represents a single user and includes various fields that provide specific details about that user.
+
+To get this list of users, we can run the command cat /etc/passwd. The first line of this output is generally reserved for the superuser. It looks like:
+text
+
+root:x:0:0:root:/root:/bin/bash
+
+In this line, each field is separated by a colon (:). Let's focus on the 1st, 6th, and 7th fields.
+
+    The 1st field root is the username. This is the traditional name for the superuser.
+    The 6th field is /root which is the home directory for the root user.
+    The 7th field /bin/bash indicates that the root user's shell is bash.
+
+Note that regular users usually have a UID above 1000, distinguishing them from system accounts.
+Finding the Current User
+
+Often, you need to check who the current user is. The whoami command in Unix and Linux systems is used to display the username of the current user who is executing the command. Each user has their own set of environment variables. For example, $HOME displays the home directory of the current user, and $SHELL prints the user's shell. Let's take a look:
+Shell
+
+# Print the current user and home directory
+echo "Current user: $(whoami)"
+echo "Current home directory: $HOME"
+echo "Current shell: $SHELL"
+
+This will print:
+text
+
+Current user: root
+Current home directory: /root
+Current shell: /bin/bash
+
+This corresponds with the output from running the cat /etc/passwd command!
+Creating and Adding a New User
+
+Next, we will learn how to create and add new users using a script. Creating new users is a common task, especially when setting up a new system or managing an organization with many users. We can use the useradd command to create a new user.
+
+Here's what the useradd command does:
+
+    Creates a New User Account: It sets up a new user account with various attributes such as username, password, home directory, shell, etc.
+    Sets the User's Home Directory: It creates a new home directory for the user if specified (with the -m option).
+    Configures Account Settings: It allows setting different options like user ID (UID), group ID (GID), account expiration, and much more.
+
+Let's see how to add a new user:
+Shell
+
+#!/bin/bash
+# Creating and adding a new user
+username="newuser"
+
+sudo useradd -m $username
+echo "New user information: $(grep $username /etc/passwd)"
+
+In this code:
+
+    We create a username variable with the value "newuser"
+    We create a new user using sudo useradd with the name $username
+    The -m flag creates a new home directory for the user.
+    We use the grep command to find lines in the /etc/passwd file that contain the text $username.
+
+The output of this code is:
+text
+
+New user information: newuser:x:1000:1000::/home/newuser:/bin/sh
+
+Some other options you can use with the useradd command are:
+
+    -d /path/to/home: Specify a custom home directory instead of the default.
+    -s /path/to/shell: Set the user's login shell.
+
+Summary and Next Steps
+
+Great job! This lesson introduced the concept of users, such as regular users and superusers/root. You also learned how to:
+
+    Retrieve and display information about users from the /etc/passwd file.
+    Use the whoami command to find the current user.
+    Create and add a new user using the useradd command.
+
+These skills are fundamental for system administration and automation. Next, dive into the practice section to apply what you've just learned and become proficient in managing users with shell scripts. Happy scripting!
