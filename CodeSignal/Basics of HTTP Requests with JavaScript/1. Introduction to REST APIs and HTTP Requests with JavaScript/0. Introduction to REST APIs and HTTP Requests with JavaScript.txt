@@ -1,0 +1,116 @@
+Introduction to REST APIs and HTTP Requests
+
+Welcome to our learning path on Interacting with APIs in JavaScript. This path is designed to guide you through the essential concepts and practical skills needed to work with APIs in the context of JavaScript. You'll learn what APIs are and how they enable different software applications to communicate with each other seamlessly. As you progress, you'll gain hands-on experience in making and managing HTTP requests, a crucial aspect of modern web development.
+What is an API?
+
+An API, or Application Programming Interface, is a set of rules and protocols that enable different software entities to communicate and interact. APIs serve as bridges between systems, providing access to data and functionality. They aren't confined to network interactions and can also be libraries, packages, or interfaces used within software projects. APIs can connect applications with operating systems, hardware, and various programming languages.
+
+Popular API types include REST, SOAP, and GraphQL, each with unique features. Our focus will be on RESTful APIs, known for their simplicity and widespread use.
+RESTful APIs and Resources
+
+REST, or Representational State Transfer, is an architectural style that guides the design of networked applications. It uses standard HTTP methods like GET, POST, PUT, and DELETE to manage interactions with resources — individual pieces of data or functionality. REST establishes principles for statelessness and resource manipulation, and when these principles are applied to create actual APIs, they are commonly referred to as RESTful APIs.
+
+In a RESTful API, resources such as a product in an online store or a to-do item in a task manager are uniquely identified and can be accessed and modified through HTTP requests. RESTful APIs are favored for their scalability, statelessness, and straightforward approach to interactions. This system of resource modeling and representation is essential for effectively working with RESTful APIs, facilitating seamless data transfer and modification between clients and servers.
+Understanding HTTP Requests
+
+HTTP, or Hypertext Transfer Protocol, is the foundation of any data exchange on the Web, and it's the protocol used by RESTful APIs. HTTP requests are messages sent by the client to a server, asking for specific resources. There are several types of HTTP methods, but the most common ones you'll encounter include:
+
+    GET: Used to retrieve data from the server. It's like reading information.
+    POST: Sends new data to the server for creation. Think of it as appending information.
+    PUT: Updates existing data on the server.
+    PATCH: Partially updates existing data on the server.
+    DELETE: Removes data from the server.
+
+Each method has a unique role, allowing us to interact with the data in various ways.
+Components of an HTTP Request
+
+Next, let's explore the essential components of an HTTP request, which are crucial for successful communication with an API:
+
+    Request Method: This indicates the desired action to be performed, such as GET or POST.
+    URL: The endpoint you're interacting with, for example, https://www.google.com.
+    Headers: Additional information sent with the request, like content type or authentication details.
+    Body: The data sent with the request, typically used in POST or PUT requests.
+
+Understanding how these components work together is key to using APIs effectively.
+Understanding HTTP Responses
+
+In response to an HTTP request, the server sends back an HTTP response. This response consists of several key components:
+
+    Status Code: A three-digit number that indicates the result of the request. Common codes include 200 (OK), 404 (Not Found), and 500 (Internal Server Error).
+
+    Headers: Similar to request headers, these provide additional context about the response, such as content type and caching policies.
+
+    Body: The main content of the response, which may be in various formats like JSON, XML, or HTML. JSON is commonly used in APIs due to its lightweight nature and ease of parsing in programming languages like JavaScript.
+
+Understanding HTTP responses is also crucial for evaluating the success of your requests and handling the returned data effectively.
+Getting to Know This Course's API
+
+As we progress through this course, we'll interact with a specific API hosted at http://localhost:8000 within the CodeSignal IDE. This API is a To-Do list service, akin to the Reminders app on an iPhone, allowing you to add, edit, and delete tasks from a list. By interacting with this API, you'll gain practical experience with real-world API functionalities and request methods.
+
+You can access various resources and functionalities by appending specific endpoints to the base URL. For instance, to access the API documentation, you would add /docs to the base URL, resulting in the full URL http://localhost:8000/docs. To retrieve this documentation, you would make a GET request to this URL, which is the typical method used to retrieve information from a server.
+
+Throughout the course, you'll practice building requests such as adding new tasks, updating existing ones, and deleting tasks using different HTTP methods. This hands-on interaction will provide you with a well-rounded understanding of API integration and management.
+Making HTTP Requests with JavaScript
+
+Instead of using command-line tools like curl, we'll explore making HTTP requests using JavaScript methods such as fetch or libraries like axios. These JavaScript-based tools are commonly used for web development to interact with APIs and facilitate data exchange between the client and the server.
+Understanding Asynchronous Functions
+
+In JavaScript, asynchronous functions are crucial for handling operations that take time to complete, such as HTTP requests. An async function is a function that returns a Promise and allows you to write asynchronous code in a more synchronous-looking manner. This is particularly useful when dealing with HTTP requests, as it enables your code to continue executing without waiting for the request to complete, thus improving performance and responsiveness.
+
+The async keyword is used to declare an asynchronous function, and the await keyword is used inside the function to pause execution until a Promise is resolved. This makes it easier to work with asynchronous operations, as you can write code that looks and behaves more like traditional synchronous code.
+Example Code
+
+For example, to retrieve the API documentation at http://localhost:8000/docs, you can use the fetch method with async/await:
+JavaScript
+
+async function getApiDocs() {
+  try {
+    const response = await fetch('http://localhost:8000/docs');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+getApiDocs();
+
+Here's a breakdown of the code:
+
+    async function getApiDocs(): Declares an asynchronous function that will handle the HTTP request.
+    await fetch(url): Initiates the HTTP request to the specified URL, and waits for the response.
+    await response.json(): Parses the response data as JSON.
+    console.log(data): Logs the parsed data to the console.
+    try...catch: Handles any errors that occur during the request process.
+
+Using the fetch function with async/await is a modern way to practice making HTTP requests and handling responses with JavaScript. It simplifies the process of working with asynchronous code, making it more readable and maintainable.
+Exploring the API Response
+
+Upon making a GET request to the /docs endpoint, you will receive a response that provides an overview of available API endpoints and their functionalities.
+
+Here is an example of what the response might look like:
+JSON
+
+{
+  "/todos": {
+    "GET": {
+      "description": "Fetch all TODO items with optional filtering and pagination.",
+      "query_params": {
+        "done": "Filter by completion status (true/false).",
+        "title": "Filter by TODO item title prefix.",
+        "page": "Page number for pagination (optional, starts at 1).",
+        "limit": "Number of items per page (optional)."
+      },
+      "responses": {
+        "200": "List of todo items"
+      }
+    },
+    ...
+  }
+}
+
+The response from the /docs endpoint provides a JSON object that outlines the structure and functionality of the available API endpoints. JavaScript allows us to parse this JSON data efficiently using JSON.parse() if required, although with fetch, this is automatically handled. Navigating this structured data is crucial for effectively utilizing the various to-do list operations available through the API.
+Summary and Preparing for Practice
+
+In this lesson, we laid the groundwork for working with RESTful APIs using JavaScript. You learned about API fundamentals, the different HTTP request types, and the essential components that make up a request. We also introduced fetch, a JavaScript-based method for testing and interacting with APIs easily. Additionally, we explored the importance of asynchronous functions in handling HTTP requests efficiently. As you transition to the practice exercises, you'll have the opportunity to apply this knowledge by making your own HTTP requests using JavaScript tools and methods. Get ready to build a strong foundation for the exciting world of API integration.
+
