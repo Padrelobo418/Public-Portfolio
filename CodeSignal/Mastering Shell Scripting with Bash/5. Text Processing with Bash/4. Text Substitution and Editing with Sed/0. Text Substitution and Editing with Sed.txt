@@ -1,0 +1,208 @@
+Introduction to Text Substitution and Editing with Sed
+
+Welcome! In this lesson, we will explore the powerful text processing tool sed in Bash. sed stands for "Stream Editor," and it is a versatile utility for parsing and transforming text in files or data streams. It reads text from a file or standard input, processes it according to specified commands, and outputs the modified text. It's commonly used for tasks like text substitution, deletion, and insertion in both files and data streams, making it an essential tool for automating text processing in scripts.
+Understanding Text Substitution with Sed
+
+Text substitution is one of the fundamental uses of sed. Suppose you want to replace all instances of the word "pattern" with "replacement" in a file. The syntax for this:
+Shell
+
+sed 's/pattern/replacement/' filename
+
+This command searches for the first occurrence of the specified pattern and replaces it with replacement. The new text will then be output to the terminal. Let's replace the first occurrence of "Hi" with "Hello":
+Shell
+
+#!/bin/bash
+
+echo "Hi World. Hi sed." > file.txt
+echo "Output of sed command:"
+sed 's/Hi/Hello/' file.txt
+
+echo -e "\nContents of file.txt:"
+cat file.txt
+
+Output:
+text
+
+Output of sed command:
+Hello World. Hi sed.
+
+Contents of file.txt:
+Hi World. Hi sed.
+
+This command searches file.txt for the first occurrence of "Hi" and replaces it with "Hello" and outputs it to the terminal. "Hi sed." does not change to "Hello sed" because this command only searches for the first occurence of "Hi". Also notice that the contents of file.txt were not actually changed.
+In-place Substitution
+
+In many cases, you may want to make substitutions directly within the file. The -i option allows you to do this. You must ensure that the file has write permissions so sed can write to it. For this, you use the chmod +w command.
+Shell
+
+#!/bin/bash
+
+echo "Hi World" > file.txt
+chmod +w file.txt
+sed -i 's/Hi/Hello/' file.txt
+
+cat file.txt
+
+Output
+text
+
+Hello World
+
+Using -i, the contents of file.txt have been replaced. Notice that the actual sed command does not print anything to the terminal now.
+Global Substitution
+
+To replace all occurrences of a pattern in the file, add the g flag to the sed command.
+Shell
+
+#!/bin/bash
+
+echo "Hi World. Hi sed." > file.txt
+sed 's/Hi/Hello/g' file.txt
+
+Output:
+text
+
+Hello World. Hello sed.
+
+Now, all instances of Hi are replaced with Hello.
+Deleting Lines with Sed
+
+sed can also be used to delete specific lines from a file. The syntax for deleting lines is:
+Shell
+
+sed 'pattern/d' filename
+
+Let's look at an example:
+Shell
+
+#!/bin/bash
+
+echo -e "Hello World\nDelete me" > file.txt
+sed '/Delete/d' file.txt
+
+Output
+text
+
+Hello World
+
+The line Delete me has been deleted.
+Inserting Lines with Sed
+
+sed can be used to insert lines after a specific pattern. The syntax for insertion is:
+Shell
+
+sed 'pattern/a\new_line' filename
+
+Let's add "Nice to meet you" after any line that contains the text "Hello"
+Shell
+
+#!/bin/bash
+
+echo -e "Hello World\nThis won't match\nHello sed" > file.txt
+sed '/Hello/a Nice to meet you.' file.txt
+
+Output:
+text
+
+Hello World
+Nice to meet you.
+This won't match
+Hello sed
+Nice to meet you.
+
+Any line that contains Hello now has the line Nice to meet you. after it.
+Saving Changes to a New File
+
+Sometimes, you might want to save the edited content to a new file instead of modifying the original. Suppose we want to create a new file grep.txt that contains the contents of sed.txt with all instances of sed changed to grep. To do this, we create the new grep.txt file and grant write permissions. Then we simply redirect the output of the sed command using >. Let's take a look:
+Shell
+
+#!/bin/bash
+
+echo -e "sed allows for efficient text management.\nWriting a script using sed automates tedious manual tasks." > sed.txt
+
+# Create grep.txt and allow write permissions
+touch grep.txt
+chmod +w grep.txt
+
+# Save to new file
+sed 's/sed/grep/g' sed.txt > grep.txt
+
+cat grep.txt
+
+Output:
+text
+
+grep allows for efficient text management.
+Writing a script using grep automates tedious manual tasks.
+
+Now, sed.txt still contains its original content, and the new grep.txt file contains the results of the sed command.
+Advanced Pattern Matching
+
+In addition to the basic commands we've covered, sed supports advanced pattern matching using wildcards and regular expressions for more flexible and powerful text processing. Let's explore how to leverage some of these features:
+
+. matches any single character except a newline. Suppose we want to ensure the punctuation after "World" is always an "!". The pattern we want to match is /World./. This will match any instance of "World" followed by any single character. Let's see an example:
+Shell
+
+#!/bin/bash
+echo "Hello World? Hello World%" | sed 's/World./World!/g' 
+
+Output:
+text
+
+Hello World! Hello World!
+
+The pattern matches World? and World%. These are replaced with World!
+
+* matches zero or more occurrences of the preceding character. Suppose we want to reduce multiple spaces between words to a single space. The pattern we want to match is s/ */. This pattern contains two spaces. The * will match zero or more occurrences of the preceding character which is a single space. This matches any sequences of two or more spaces. We will then replace it with / / which is a single space. Let's see this in action:
+Shell
+
+#!/bin/bash
+echo "Hello    World!   This  is  a   test." | sed 's/  */ /g'
+
+Output:
+text
+
+Hello World! This is a test.
+
+This finds any sequence of two or more spaces and replaces them with a single space.
+
+[]: Matches any one of the enclosed characters. Suppose we want to replace all digits in a sentence with the character #. The pattern to search for is /[0-9]/, which matches any digit. We will then replace it with /#/. Here's an example:
+Shell
+
+#!/bin/bash
+echo "My phone number is 123-456-7890." | sed 's/[0-9]/#/g'
+
+Output:
+text
+
+My phone number is ###-###-####.
+
+Now, all digits have been replaced with #.
+
+\b matches a word boundary, which is the position between a word and a space or punctuation. Suppose we want to replace the word sed with grep. The pattern to match is \bsed\b, which ensures that only the standalone word sed is matched. We then replace it with grep. Let's take a look:
+Shell
+
+#!/bin/bash
+echo "sed is used for text processing." | sed 's/\bsed\b/grep/'
+
+Output:
+text
+
+grep is used for text processing.
+
+Notice that even though used contains sed, it does not get replaced with grep. This is because there is no word boundary before sed in the string used.
+Summary and Next Steps
+
+Fantastic work diving into sed for text processing. In this lesson, you learned how to:
+
+    Perform text substitution using sed 's/pattern/replacement/'
+    Use -i to make in-place changes directly in the file
+    Add the g flag to perform global substitution
+    Use sed 'pattern/d' to delete specific lines from a file with
+    Use sed 'pattern/a\new_line' to insert lines after a specific pattern
+    Use the . wildcard to match any single character
+    Use the * wildcard to match zero or more occurrences of the preceding character
+    Use the [] character class to match specific characters or ranges of characters
+    Use the \b word boundary to precisely match whole words
+
+With these powerful text editing commands, you can automate many text processing tasks. Whether you're cleaning up log files, modifying configuration files, or transforming data, sed is an invaluable tool in your scripting toolkit. Now it's your turn to put these skills into practice. Head over to the practice section and start experimenting with sed on your own. Embrace the power of stream editing, and happy scripting!

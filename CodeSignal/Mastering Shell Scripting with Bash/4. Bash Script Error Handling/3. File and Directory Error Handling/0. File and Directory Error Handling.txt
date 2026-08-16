@@ -1,0 +1,116 @@
+Introduction to File and Directory Error Handling
+
+Welcome! In this lesson, we will focus on error handling when dealing with files and directories in shell scripts. Managing file and directory existence is a critical part of robust shell scripting. You will learn how to check if files or directories exist and how to verify if scripts have the necessary execution permissions.
+
+Let's get started!
+Checking File Existence
+
+Ensuring a file exists before performing any operations on it can prevent potential errors.
+
+The [ -f $file ] command is used to check if the specified path is a regular file. The -f operator checks if the provided string refers to a regular file (not a directory or other special file types). $file contains the name of the file being checked. This command returns true if $file is a regular file that exists and false otherwise. Consider the following example:
+Shell
+
+#!/bin/bash
+
+# Creating a file
+touch example.txt
+
+# Check if a file exists
+file="example.txt"
+if [ -f $file ]; then
+  echo "File '$file' exists."
+else
+  echo "File '$file' does not exist."
+fi
+
+    touch example.txt creates a file named example.txt in the current directory.
+    The variable file is set to example.txt.
+    The if [ -f $file ] statement checks if example.txt exists.
+    If the file exists, echo "File '$file' exists." prints a confirmation message.
+    Otherwise, an alternate message indicates the file does not exist.
+
+The example.txt file exists, so [ -f $file ] returns true and the output is:
+text
+
+File 'example.txt' exists.
+
+Using the -f operator to check if a file exists is crucial to making sure a file exists before performing operations on it.
+Checking Directory Existence
+
+Similar to checking for a file, we must ensure a directory exists before performing operations on it. Here, we use the -d flag. [ -d $directory ] returns true if the directory at the path stored in $directory exists, and returns false otherwise. Let's see an example:
+Shell
+
+#!/bin/bash
+
+# Creating a directory
+mkdir -p example_dir
+
+# Check if a directory exists
+directory="example_dir"
+if [ -d $directory ]; then
+  echo "Directory '$directory' exists." 
+else
+  echo "Directory '$directory' does not exist."
+fi
+
+In this script:
+
+    mkdir -p example_dir creates a directory named example_dir.
+    The variable directory is set to example_dir.
+    The if [ -d $directory ] statement checks if example_dir exists.
+    If the directory exists, echo "Directory '$directory' exists." prints a confirmation message.
+    Otherwise, an alternate message indicates the directory does not exist.
+
+The example_dir directory exists, so [ -d $directory ] returns true and the output is:
+text
+
+Directory 'example_dir' exists.
+
+We use the -d operator to ensure that a directory exists before running commands that require that directory to exist.
+Checking Script Execution Permissions
+
+Before running a script, it's crucial to verify it has the necessary execution permissions. The -x flag helps us achieve this.
+
+The [ -x $script ] command checks if the specified file has execution permissions. This command returns true when the path stored in the variable script exists and has execution permissions. This command returns false if the path stored in the variable script does not exist or it exists but does not have execution permissions. Consider this example:
+Shell
+
+#!/bin/bash
+
+# Creating an executable script
+touch example.sh
+chmod +x example.sh
+
+# Check if a script has execution permissions
+script="example.sh"
+if [ -x $script ]; then
+  echo "Script '$script' has execution permissions."
+else
+  echo "Script '$script' does not have execution permissions."
+fi
+
+In this script:
+
+    touch example.sh creates an empty script named example.sh.
+    chmod +x example.sh grants execution permissions to example.sh.
+    The variable script is set to example.sh.
+    The if [ -x $script ] statement checks if example.sh exists and has execution permissions.
+    If the script is executable, echo "Script '$script' has execution permissions." prints a confirmation message.
+    Otherwise, an alternate message indicates the script lacks execution permissions.
+
+The output of this script is:
+text
+
+Script 'example.sh' has execution permissions.
+
+Using the -x operator, we can prevent execution errors by verifying that the necessary permissions are in place, thereby avoiding potential runtime issues and permission-related errors.
+Summary and Next Steps
+
+Well done! In this lesson, you learned how to:
+
+    Ensure a file exists before performing operations using [ -f $file ].
+    Verify a directory's existence with [ -d $directory ].
+    Check for script execution permissions using [ -x $script ].
+
+Next, you will apply these techniques in practice exercises. These exercises will solidify your understanding and help you become more confident in writing robust shell scripts.
+
+Happy scripting, and let's move on to the practice section!

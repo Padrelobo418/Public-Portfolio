@@ -1,0 +1,125 @@
+Introduction to Standard Error and Logging
+
+Hello! In this lesson, we will explore the concept of error handling through standard error redirection and logging in shell scripts. These techniques are essential for writing robust and maintainable scripts. By learning how to capture and log error messages, you can ensure that your scripts run smoothly and any issues are well-documented for further analysis.
+
+Let's get started!
+Understanding Standard Error
+
+In Unix-like operating systems, there are three standard streams for input and output:
+
+    Standard Input (stdin): This is the default source of input for a program, typically represented by file descriptor 0.
+    Standard Output (stdout): This is the default destination for program output, typically represented by file descriptor 1.
+    Standard Error (stderr): This is the default destination for error messages and diagnostics, typically represented by file descriptor 2.
+
+stderr is specifically used to output error messages separately from standard output (stdout). This separation allows you to redirect errors independently from regular output. For instance, you might want stdout to go to a file and stderr to be logged elsewhere to diagnose issues without cluttering standard output.
+Custom Error Message to Console
+
+Sometimes you may want to print a custom error message to stderr instead of stdout. This can be useful for immediate feedback during script execution. You can use the >&2 operator to redirect the echo output to stderr. Here is an example:
+Shell
+
+#!/bin/bash
+echo "Printing error to stderr" >&2
+
+By using >&2, you ensure the error message is sent to stderr instead of stdout, which helps distinguish it from regular output.
+Redirecting Standard Error to a Log File
+
+Shell scripts typically display error messages on the terminal. However, it is often useful to redirect these messages to a log file for later review. We have seen how to redirect the output (stdout) of a command using command >> file_name. We can similarly redirect the output of stderr to a file using the 2> operator. The 2> operator overwrites the contents of the file, while 2>> appends to the file.
+
+Consider the following script:
+Shell
+
+#!/bin/bash
+
+# Define a log file to capture error messages
+log_file="error_log.txt"
+
+ls /nonexistent_directory 2>> $log_file
+
+cat $log_file
+
+In this script:
+
+    We define a log file named error_log.txt to store error messages.
+    The ls /nonexistent_directory command will fail because the directory does not exist.
+    2>> $log_file redirects the error message from the ls command to error_log.txt.
+    cat $log_file prints the contents of error_log.txt
+
+The output of the cat $log_file command is:
+text
+
+ls: cannot access '/nonexistent_directory': No such file or directory
+
+Using the 2>> operator, we have directed the error message of the ls command to error_log.txt.
+Discarding Errors Messages
+
+Sometimes you might want to suppress error messages entirely, ensuring they don't clutter the terminal or log files. You can achieve this by redirecting stderr to /dev/null, a special file that discards all data written to it.
+
+Here is an example:
+Shell
+
+#!/bin/bash
+
+# Attempt to list a non-existent directory and suppress error messages
+ls /nonexistent_directory 2>/dev/null
+
+In this script:
+
+    2>/dev/null redirects any error messages from the ls command to /dev/null, effectively discarding them.
+
+By redirecting stderr to /dev/null, you can prevent error messages from being displayed or logged, which can be useful in scenarios where such messages are not necessary for the user to see.
+Conditional Handling of Errors and Logging
+
+To enhance error handling, you can use conditional statements to manage errors and log the results accordingly. In this example, we will also use the tee command. The tee command reads from standard input and writes to both standard output and one or more files simultaneously. This allows you to see the output in the terminal while also saving it to a file. The general syntax of the tee command is:
+text
+
+command | tee -a output_file
+
+The following script attempts to copy a non-existent file and logs an error:
+Shell
+
+#!/bin/bash
+
+# Define a log file to capture error messages
+log_file="error_log.txt"
+
+# Attempt to copy a non-existent file and log errors
+if ! cp nonexistent_file.txt file.txt 2>> $log_file; then
+  echo "Error: Failed to copy file" | tee -a $log_file >&2
+fi
+
+Let's look at the if statement:
+
+    The ! operator inverts the exit status of the cp command. Normally, if cp succeeds, the exit status is 0 (true), and if it fails, the exit status is non-zero (false). The ! operator will make a successful command return false and a failing command return true.
+    cp nonexistent_file file.txt attempts to copy a non-existent file to a file called file.txt. Since the file nonexistent_file does not exist, this command will fail. The ! operator makes the if statement condition true.
+    2>> $log_file redirects any error messages from the cp command to the error_log.txt file, appending them to the existing contents.
+
+Inside the if ... fi block:
+
+    echo "Error: Failed to copy file" prints the error message "Error: Failed to copy file" to the standard output.
+    | tee -a $log_file pipes the output of the echo command to tee, which appends (-a option) the message to the error_log.txt file
+    >&2 prints the message to stderr instead of stdout.
+
+The output of this script to stderr is:
+text
+
+Error: Failed to copy file
+
+The content of error_log.txt file is:
+text
+
+cp: cannot stat 'nonexistent_file.txt': No such file or directory
+Error: Failed to copy file
+
+Using if statements, 2>>, tee -a, and >&2 we have created a script that logs the error to error_log.txt and also outputs a message to the stderr.
+Summary and Next Steps
+
+Fantastic work! In this lesson, you learned how to:
+
+    Redirect standard error to a log file using 2> and 2>>.
+    Suppress error messages by redirecting stderr to /dev/null.
+    Print custom error messages to stderr using >&2.
+    Use conditional statements for enhanced error handling using command | tee -a output_file
+
+These skills are vital for writing shell scripts that are not only functional but also maintainable and easier to debug. Having proper error logging in place can significantly reduce the time you spend troubleshooting issues.
+
+Now it's time to put your knowledge into practice. Head over to the practice section to solidify your understanding and gain hands-on experience with these error-handling and logging techniques. Happy scripting!

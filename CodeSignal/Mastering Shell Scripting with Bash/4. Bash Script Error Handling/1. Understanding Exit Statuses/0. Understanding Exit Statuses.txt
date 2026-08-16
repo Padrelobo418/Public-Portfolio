@@ -1,0 +1,158 @@
+Introduction to Understanding Exit Statuses
+
+Welcome! In this lesson, we will explore the concept of exit statuses in shell scripts. An exit status indicates whether a command was successful or if an error occurred. This lesson will guide you through the basics of exit statuses, including how to check them, handle errors, and use them to control the flow of your scripts.
+
+Let's get started!
+The Basics of Exit Statuses
+
+In the Unix-like operating system, every command returns an exit status when it finishes executing. This exit status is a number where:
+
+    0 indicates success.
+    Any non-zero value indicates an error (the specific number can provide information about the kind of error).
+
+To check the exit status of a command, we use the special variable $?.
+
+Suppose we have a directory called projects. Inside projects, there is a file p1.txt. We can observe the exit status for ls commands as follows: Here's an example:
+Shell
+
+#!/bin/bash
+
+echo "Running a successful command (ls)..."  
+ls projects 
+echo "Exit status: $?" 
+
+# Demonstrating a failing command
+echo "Running a failing command..."
+ls nonexistent_directory # Causes error
+echo "Exit status: $?" 
+
+    The ls projects command lists the contents of the projects directory, which is just p1.txt. Since it is a valid directory, the exit status is 0.
+    The ls nonexistent_directory command attempts to list a directory that does not exist, resulting in an error. The exit status is a non-zero value, typically 2.
+
+The output of the code is:
+text
+
+Running a successful command (ls)...
+p1.txt
+Exit status: 0
+Running a failing command...
+Exit status: 2
+
+The following error message is also output:
+text
+
+ls: cannot access 'nonexistent_directory': No such file or directory
+
+We can see that the successful ls command has an exit status of 0 (success). The unsuccessful ls command has an exit status of 2 and outputs a descriptive error message.
+The `exit` Command
+
+The exit command in a shell script is used to terminate the script and optionally provide an exit status. The exit status is a numeric value that indicates the result or outcome of the script's execution. By convention, an exit status of 0 indicates that the script completed successfully without any errors.
+
+Any non-zero exit status indicates that the script encountered an error or abnormal condition. Common non-zero exit statuses include:
+
+    1: General errors.
+    2: Misuse of shell builtins (according to the Bash documentation).
+    126: Command invoked cannot execute.
+    127: Command not found.
+    128: Invalid argument to exit.
+    130: Script terminated by Control-C.
+
+When used in a script, you can specify the exit status as an argument to the exit command, like exit 1, to indicate a specific type of error. If no argument is provided to exit, the script will terminate with the status of the last executed command.
+
+Sometimes, you might want to exit your script with a specific status. You can use the exit command followed by a status code. For example:
+Shell
+
+#!/bin/bash
+echo "Exiting with a custom status (42)..."  
+exit 42
+
+exit 42 terminates the script and returns status 42 to the calling shell or process. This calling shell or process can access this exit status using $?.
+Handling Exit Statuses with Conditional Statements
+
+You can use exit statuses in conditional statements to control the flow of your script. Let's see an example of checking command success using an if statement. In this example, we want to create a directory called projects, but it already exists.
+Shell
+
+#!/bin/bash
+
+# Attempting to create a directory
+echo "Attempting to create a directory..."
+mkdir projects
+status=$?
+
+if [ $status -eq 0 ]; then
+  echo "Directory created successfully."
+  exit 0
+else
+  echo "Failed to create directory."
+  echo "Exit status: $status"
+  exit $status
+fi
+
+In this code:
+
+    mkdir projects attempts to create a directory named projects.
+    status=$? captures the exit status of the mkdir command and stores it in the status variable.
+    if [ $status -eq 0 ] checks if the captured exit status is 0, which indicates success.
+    If $status does equal 0:
+        echo "Directory created successfully." prints the success message
+        exit 0 exits the script with a success status (0). The calling shell or process can access this exit status using $?.
+    The else clause executes if $status does not equal 0.
+        echo "Failed to create directory." prints a failure message.
+        echo "Exit status: $status" prints $status which in this case is 1
+        exit $status exits the script with a failure status of 1
+
+The output of this script is:
+text
+
+Attempting to create a directory...
+Failed to create directory.
+Exit status: 1
+
+The following error is also output:
+text
+
+mkdir: cannot create directory ‘projects’: File exists
+
+Using conditional statements, we are able to provide informative output when running our script.
+Using `set -e` for Immediate Exit on Errors
+
+Sometimes, you want your script to exit when it first encounters an error. The set -e command in your script will cause the script to exit immediately if any command returns a non-zero status. This can be useful for preventing your script from continuing in an erroneous state. Let's take a look:
+Shell
+
+#!/bin/bash
+
+set -e
+
+echo "Running a command that will fail..."
+ls nonexistent_directory
+echo "This line will not be executed if the ls command fails."
+cd nonexistent_directory
+
+    set -e ensures that the script exits immediately if any command fails
+    The ls command attempts to list the contents of a nonexistent directory.
+    The script exits when the ls command fails
+    The cd command does not execute because the script already exited
+
+The output of this script is:
+text
+
+Running a command that will fail...
+
+The error that is output is:
+text
+
+ls: cannot access 'nonexistent_directory': No such file or directory
+
+By using the set -e command, we can exit the script, preventing the script from trying to switch into a nonexistent directory with the cd command
+Summary and Next Steps
+
+Congratulations on completing this lesson on exit statuses! In this lesson, you learned how to:
+
+    Check the exit status of a command using $?.
+    Use the exit command to terminate a script with a specific status.
+    Handle exit statuses using conditional statements to control script flow.
+    Utilize set -e to make your script exit immediately on errors.
+
+Understanding exit statuses is a fundamental skill for writing robust shell scripts that handle errors gracefully. In the next practice section, you will have the opportunity to apply what you've learned and reinforce your knowledge by writing scripts that use exit statuses effectively.
+
+Get ready to dive into the practice section and start scripting with confidence. Happy scripting!

@@ -1,0 +1,257 @@
+Introduction to File Name Expansion and Management
+
+Welcome! In this lesson, we will focus on file name expansion and management in Bash. File name expansion allows you to match file names using patterns. For example, you might want to find all .txt files in a directory or list all files that start with the word data. This lesson serves as a foundational block for managing files, significantly easing the manipulation and organization of files in more complex scripts. Let's get started!
+Wildcards and Basic Expansion
+
+File name expansion, also known as globbing, is a feature in shell environments like Bash that allows you to match filenames using patterns with special characters called wildcards. These wildcards are symbols like *, ?, and []. These wildcards allow you to easily select files that fit certain criteria without typing each filename explicitly. This simplifies file management tasks such as listing, copying, or moving multiple files at once.
+Matching Any Number of Characters: `*`
+
+The * wildcard matches any number of characters (including none). This is useful when you need to list or act on files with similar names but different suffixes or prefixes.
+
+For example, ls *.txt lists all files ending with .txt. The * wildcard before .txt can represent any sequence of characters (including none), so any file name of any length that ends in .txt will be listed. Let's take a look:
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file1.txt draft.txt file2.sh
+
+ls *.txt
+
+Output
+text
+
+draft.txt
+file1.txt
+
+Only the files that end with .txt are included. file2.sh is not included because it does not match the specified pattern.
+
+Now let's use * to search for any files that begin with file. ls file* matches any name that begins with file followed by any sequence of characters.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file1.txt draft.txt file2.sh
+
+ls file*
+
+Output:
+text
+
+file1.txt
+file2.sh
+
+Only the files that start with file are included. draft.txt does not match the pattern, so it is not included.
+Matching Exact Character Counts: `?`
+
+The ? wildcard matches exactly one character. This is useful for filtering files that have specific character lengths.
+
+For example, ls draft?.md matches any file that starts with draft and has one character before .md
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch draft1.md draftA.md draft1A.md
+
+ls draft?.md
+
+Output:
+text
+
+draft1.md
+draftA.md
+
+draft1A.md is not included in the output because it has two characters between draft and .md.
+
+You can match multiple characters by using any number of ? wildcards. Let's examine ls draft??.md. Two ? wildcards represent exactly two characters, so any file name that starts with draft and has two characters before .md will be listed.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch draft1.md draftA.md draft1A.md
+
+ls draft??.md
+
+Output:
+text
+
+draft1A.md
+
+draft1.md and draftA.md are not included because they only have a single character between draft and .md
+Matching Ranges: `[]`
+
+The [] wildcard allows you to match a specific set or range of characters. You can specify ranges of characters by using a hyphen (-) between two characters. A range represents all characters between the two specified characters, inclusive.
+
+Let's look at ls file[1-3].txt. The [1-3] wildcard will match any one character from 1 to 3.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file.txt file1.txt file2.txt file4.txt
+
+ls file[1-3].txt
+
+Output:
+text
+
+file1.txt
+file2.txt
+
+The command does not match file.txt because there is no digit between file and .txt. file4.txt is not matched because 4 does not fall in the [1-3] range.
+
+To include multiple ranges in the [] wildcard, you simply list them side by side within the brackets. file[1-35-6].txt will match any name that starts with file followed by the numbers 1, 2, 3, 5, 6, then ends with .txt
+
+Let's take a look:
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file1.txt file2.txt file3.txt file4.txt file5.txt file6.txt file7.txt
+
+ls file[1-35-6].txt
+
+Output
+text
+
+file1.txt
+file2.txt
+file3.txt
+file5.txt
+file6.txt
+
+file4.txt and file7.txt are not included because they fall outside of the ranges 1-3 and 5-6.
+
+Similarly, you can use letters in ranges as well.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch fileA.txt fileB.txt fileC.txt fileD.txt 
+
+ls file[A-C].txt
+
+Output:
+text
+
+fileA.txt
+fileB.txt
+fileC.txt
+
+The [A-C] range matches A, B, and C, so fileA.txt, fileB.txt, and fileC.txt are listed. fileD.txt is not listed because D is outside the [A-C] range.
+
+If you want to include a range that is only a single character, you use just that character without a hyphen.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file1.txt file2.txt file4.txt
+touch fileA.txt fileB.txt fileC.txt
+
+ls file[1-3B].txt
+
+Output:
+text
+
+file1.txt
+file2.txt
+fileB.txt
+
+This pattern matches any name that start with file, followed by a 1, 2, 3, or B, then ends with .txt.
+Matching Lists: {}
+
+The {} expansion is used to generate arbitrary strings. Think of this as an OR clause where each pattern inside the braces is treated as an alternative and expands into multiple words. This is useful when you want to match specific filenames that follow different patterns.
+
+Let's look at file{1,2,1A}.txt. This will match the names file1.txt, file2.txt, and file1A.txt.
+Shell
+
+#!/bin/bash
+
+# Create example files
+touch file1.txt file2.txt file1A.txt file2A.txt
+
+ls file{1,2,1A}.txt
+
+Output:
+text
+
+file1A.txt
+file1.txt
+file2.txt
+
+file2A.txt does not get matched because 2A is not one of the specified patterns listed in {}.
+Combining Wildcards for Flexible Matching
+
+You can combine all these wildcards into a single query for advanced pattern matching. Let's inspect this pattern:
+text
+
+{file,draft}[1-3A]??.*
+
+    {file,draft} matches either file or draft.
+    [1-3A] matches any one character from the set 1, 2, 3, or A.
+    ?? matches exactly two characters, regardless of their values.
+    . * matches a dot followed by any sequence of characters, representing any file extension.
+
+Shell
+
+#!/bin/bash
+
+# Files that will match
+touch file123.txt draft1AA.pdf fileAAA.sh
+# Files that will not match
+touch script123.txt file423.txt draft12.txt draft1234.txt file123_pdf
+
+ls {file,draft}[1-3A]??.*
+
+Output:
+text
+
+draft1AA.pdf
+file123.txt
+fileAAA.sh
+
+Combining these wildcards allows you to perform complex file name matches effortlessly, making your file management tasks in Bash more powerful and efficient.
+Case Sensitivity
+
+Lastly, let's cover case sensitivity. File name expansion is case-sensitive by default. This means that wildcards will distinguish between uppercase and lowercase letters. For example, * will treat file.txt and File.txt as different files.
+
+If you want a case-insensitive match, you can use a case-insensitive shell option called shopt -s nocaseglob. This makes wildcards ignore case sensitivity. To revert back to case-sensitive matching, you can disable this option using shopt -u nocaseglob:
+Shell
+
+#!/bin/bash
+
+# Enable case-insensitive globbing
+shopt -s nocaseglob
+
+# Create example files
+touch file.txt File.md
+
+ls file.*
+
+# Disable case-insensitive globbing
+shopt -u nocaseglob
+
+Output:
+text
+
+File.md
+file.txt
+
+With nocaseglob enabled, both file.txt and File.md are matched.
+Summary and Next Steps
+
+Excellent work! You've learned the fundamentals of file name expansion and management in Bash. We covered how to:
+
+    Use * to match any number of characters in file names.
+    Use ? to match exactly one character.
+    Use [] to match a specific set or range of characters.
+    Use {} to match multiple specified patterns.
+    Combine wildcards for advanced pattern matching.
+
+These skills are essential for efficiently managing and manipulating files, which is a common task in shell scripting. Now it's time to put these concepts into practice. The upcoming practice section will allow you to experiment with these commands and solidify your understanding by solving real-world problems. Happy scripting!

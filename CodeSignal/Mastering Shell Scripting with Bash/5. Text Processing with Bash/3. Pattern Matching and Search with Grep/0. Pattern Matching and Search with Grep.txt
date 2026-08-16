@@ -1,0 +1,171 @@
+Introduction to Pattern Matching and Search with Grep
+
+Welcome! In this lesson, we will explore the powerful tool grep in Bash for pattern matching and searching within files. grep stands for "Global Regular Expression Print," and it is widely used for filtering and searching through text data. Think of grep like automating Ctrl+F within your scripts. Mastering grep will make your text processing tasks easier and more efficient. Let's get started!
+Basic Search
+
+Let's start with a basic search using grep. The basic command syntax is:
+Shell
+
+grep 'pattern' filename
+
+This command searches for the specified pattern within the file. Here's an example:
+Shell
+
+#!/bin/bash
+echo -e "This line will match\nfile.txt is a test file\nHello World" > file.txt
+
+grep 'is' file.txt
+
+Output:
+text
+
+This line will match
+file.txt is a test file
+
+This query outputs only the lines that contain is anywhere in the line. Notice that "This line will match" is included because "This" contains the substring "is".
+Search for Whole Words Only
+
+To search for a whole word rather than a substring, use the -w option. Let's take a look:
+Shell
+
+#!/bin/bash
+
+echo -e "This line won't match\nfile.txt is a test file" > file.txt
+grep -w 'is' file.txt
+
+Output:
+text
+
+file.txt is a test file
+
+Even though "This" contains the substring "is", only the lines with "is" as a whole word are matched.
+Case-Insensitive Search
+
+Sometimes, you need to perform a search without considering the case (uppercase or lowercase). The -i option allows for case-insensitive searches. For example:
+Shell
+
+#!/bin/bash
+echo -e "Hello World\nHELLO WORLD\nHi world!" > file.txt
+grep -i 'hello' file.txt
+
+Output:
+text
+
+Hello World
+HELLO WORLD
+
+In this example, "Hello" and "HELLO" are both matched because -i ignores case differences.
+Search for Lines Beginning with a Pattern
+
+To find lines that begin with a specific pattern, you can use the caret (^) symbol. For example, ^Hello will match any lines that start with Hello. This anchor signifies the start of a line in regular expressions. Let's look at an example:
+Shell
+
+#!/bin/bash
+
+echo -e "Hello world\nSay Hello grep\nGreetings" > file.txt
+grep '^Hello' file.txt
+
+Output:
+text
+
+Hello world
+
+Only the lines that begin with Hello are matched. The caret ^ ensures that the pattern must appear at the start of the line.
+Show Line Numbers
+
+If you want to know the line numbers of matching patterns, you can use the -n option. Let's look at an example:
+Shell
+
+#!/bin/bash
+echo -e "Hello world\nGrep is a powerful tool\nThis is a test file\nHello grep" > file.txt
+
+grep -n 'grep' file.txt
+
+Output
+text
+
+2:Grep is a powerful tool
+4:Hello grep
+
+Both lines 2 and 4 contain "Grep". Notice that line numbers start at 1, not 0.
+Invert Match
+
+To find lines that do not match a given pattern, use the -v option. Suppose we have the following script:
+Shell
+
+#!/bin/bash
+
+echo -e "Hello world\nGrep is a powerful tool\nThis is a test file\nHello grep" > file.txt
+grep -v 'Hello' file.txt
+
+Output:
+text
+
+Grep is a powerful tool
+This is a test file
+
+Using -v, only lines that do not contain "Hello" are printed
+Count Matches
+
+To count the number of lines matching a pattern, use the -c option. For example:
+Shell
+
+#!/bin/bash
+
+echo -e "This file is a test file\nSearch in a file using grep\nThis won't match" > file.txt
+grep -c 'file' file.txt
+
+Output:
+text
+
+2
+
+Only 2 of the 3 lines contain the word "file". -c only counts matching lines. "This file is a test file" contains "file" twice, but the line is only counted once.
+Search for Multiple Patterns (OR Logic)
+
+You can simulate OR logic using the -e option. This allows you to search for lines that contain any of the provided patterns. Here's an example:
+Shell
+
+#!/bin/bash
+
+echo -e "Introducing grep\nHello world\nThis won't match\nHello grep" > file.txt
+grep -e 'Hello' -e 'grep' file.txt
+
+Output:
+text
+
+Introducing grep
+Hello world
+Hello grep
+
+Only lines that contain grep and/or Hello are matched.
+Show Lines Matching Multiple Patterns (AND Logic)
+
+You can simulate AND logic by pipeing together multiple patterns. For example:
+Shell
+
+#!/bin/bash
+echo -e "Hello grep\ngrep says hello!\nGrep is fun\nHello World" > file.txt
+grep -i 'grep' file.txt | grep -i 'hello'
+
+Output:
+text
+
+Hello grep
+grep says hello!
+
+grep -i 'grep' file.txt matches the 3 lines that contain grep (case-insensitive). These 3 lines are then sent as input to grep -i 'hello' which matches only the lines that contain hello (case-insensitive.)
+Summary and Next Steps
+
+Great job on learning various techniques to search and match patterns using grep in Bash. In this lesson you learned how to:
+
+    Perform basic searches using grep
+    Use -w to search for whole words
+    Use -i to conduct case-insensitive searches
+    Use -n to show line numbers of matching patterns
+    Use -v to invert matches
+    Use -c to count the number of matching lines
+    Use -e to implement OR logic to search for multiple patterns
+    Use | to implement AND logic by piping multiple commands together
+
+These skills will enhance your ability to manipulate and search through text files efficiently. Now it’s time to practice what you’ve learned. Head over to the practice section and start applying these grep commands in real-world scenarios. Happy scripting!

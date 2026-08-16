@@ -1,0 +1,217 @@
+Introduction to Trap Command and Cleaning Up
+
+Welcome! In this lesson, we will explore the powerful trap command in Bash. The trap command executes a set of commands when a script exits, whether it completes successfully or encounters an error. This command is crucial for managing cleanup operations in your scripts. Proper cleanup ensures that temporary files and other resources do not clutter your system or cause unexpected behaviors.
+
+Let's get started!
+Understanding the trap Command
+
+The trap command in Bash allows you to specify commands that should be executed when a certain signal is received by the script. Signals are notifications sent to a process to notify it of various events. For example, the EXIT signal is sent when the script exits, either normally or due to an error. The INT (interrupt) signal triggers when you press Ctrl+C to interrupt the script.
+
+The general syntax for the trap command in Bash is as follows:
+Shell
+
+trap 'commands' signal
+
+This line instructs the script to run commands when the specified signal is received. commands can be a string of commands, another script or a function.
+
+The following script creates a file called temp.txt then exits. We use the trap command to remove this temporary file once the script exits.
+
+solution.sh
+Shell
+
+#!/bin/bash
+
+# Define a cleanup function
+cleanup() {
+  echo -e "ls command before cleanup... \n$(ls)\n"
+  rm -f temp.txt
+  echo -e "ls command after cleanup... \n$(ls)\n"
+}
+
+# Set up a trap to call the cleanup function on script exit
+trap cleanup EXIT
+
+# Creating a temporary file
+touch temp.txt
+
+# Simulate some work
+echo "Working with temp.txt" 
+echo "Done working with temp.txt. It can be cleaned up." 
+
+# Exiting script
+exit 0
+
+In this script:
+
+    The cleanup function removes temporary files and prints ls output before and after rm -f temp.txt.
+    trap cleanup EXIT: Sets up a trap to call the cleanup function on script exit.
+    touch temp.txt: Creates an empty file named temp.txt.
+    Two echo statements simulate work with the temporary file.
+    When exit 0 is executed, the trap command ensures the cleanup function is called to remove the temporary file.
+
+The output of the script is:
+text
+
+Working with temp.txt
+Done working with temp.txt. It can be cleaned up.
+
+ls command before cleanup... 
+solution.sh
+temp.txt
+
+ls command after cleanup... 
+solution.sh
+
+The output of the script shows that when the exit 0 command is executed, the cleanup function is called, successfully removing the temp.txt. The trap command ensures that the cleanup function is executed regardless of how the script exits, providing a robust way to manage resources.
+Handling Signals
+
+The trap command can handle various signals, not just EXIT. For instance, the INT signal is sent when you press Ctrl+C to interrupt a script. Let’s modify our script to handle the INT signal as well. This script sets up two cleanup functions: one for handling the EXIT signal and another for the INT signal. When the script exits normally, the cleanup_exit function is invoked. If the user interrupts the script by pressing Ctrl+C, the cleanup_int function prints a message indicating that the script was interrupted. However, it does not remove the temporary file.
+Shell
+
+#!/bin/bash
+
+# Define cleanup function for EXIT
+cleanup_exit() {
+   echo "EXIT signal received. Cleaning up..." 
+   rm -f temp.txt
+}
+
+# Define cleanup function for INT
+cleanup_int() {
+   echo "INT signal received from Ctrl+C. Not removing temp.txt"
+}
+
+# Set traps
+trap cleanup_exit EXIT
+trap cleanup_int INT
+
+# Simulate work
+touch temp.txt
+echo "Working with temp.txt. Press Ctrl+C to interrupt." 
+
+# Exiting script
+exit 0
+
+In the script:
+
+    cleanup_exit defines a function that prints a descriptive message and removes temp.txt
+    cleanup_int defines a function that prints a descriptive message but does not remove temp.txt
+    trap cleanup_exit EXIT instructs the script to call cleanup_exit if the script receives an EXIT signal
+    trap cleanup_int INT instructs the script to call cleanup_int if the script receives an INT signal
+    exit 0 exits the script, sending an EXIT signal
+
+If the script runs without the user pressing Ctrl+C, the output is:
+text
+
+Working with temp.txt. Press Ctrl+C to interrupt.
+EXIT signal received. Cleaning up...
+
+The temp.txt no longer exists in the current working directory.
+
+If the user pressed Ctrl+C, the output is:
+text
+
+Working with temp.txt. Press Ctrl+C to interrupt.
+INT signal received from Ctrl+C. Not removing temp.txt.
+
+temp.txt will still exist in the current working directory.
+Handling Exit Statuses
+
+We can also specify what commands to run based on the exit status. This script sets up two cleanup functions to handle success (cleanup_success) and failure (cleanup_failure), and a general cleanup function (cleanup) to dispatch the appropriate cleanup based on the exit code. It attempts to read a file file.txt. Depending on if cat file.txt succeeds or fails, the script exits with the appropriate status, triggering the relevant cleanup function.
+Shell
+
+#!/bin/bash
+
+# Define cleanup function for successful exit
+cleanup_success() {
+  echo "Cleaning up after success..." 
+  rm -f temp/fail.txt
+  ls temp
+}
+
+# Define a cleanup function for a failure
+cleanup_failure() {
+  echo "Cleaning up after failure..." 
+  rm -f temp/success.txt
+  ls temp
+}
+
+# Define a general cleanup function based on exit code
+cleanup() {
+  if [ $? -eq 0 ]; then
+    cleanup_success
+  else
+    cleanup_failure
+  fi
+}
+
+trap cleanup EXIT
+
+# Creating a temporary file for both success and failure scenarios
+echo "The script was a success" > temp/success.txt
+echo "The script failed" > temp/fail.txt
+
+# Simulate work
+echo "Working with temp directory."
+
+# Simulating command that will succeed or error
+# NOTE: Commenting the touch command to will simulate failure
+touch file.txt
+cat file.txt
+
+# Simulate a successful exit or failure
+if [ $? -eq 0 ]; then
+  echo "Simulating success..." 
+  exit 0  # Simulate a successful exit code
+else
+  echo "Simulating failure..."
+  exit 1  # Simulates a failure exit code
+fi
+
+    The cleanup_success function prints a success message then calls rm -f fail.txt to remove fail.txt
+
+    The cleanup_failure function prints a failure message then calls rm -f success.txt to remove success.txt
+
+    The cleanup function checks the script's exit status ($?) and calls either cleanup_success or cleanup_failure based on whether the script exited successfully or with an error.
+
+    trap cleanup EXIT sets up a trap to call the cleanup function when the script exits.
+
+    The cleanup function checks the script's exit status ($?) and calls either cleanup_success or cleanup_failure based on whether the script exited successfully or with an error.
+
+    if [ $? -eq 0 ] checks whether the exit status of the most recent command ($?) equals 0.
+
+    If successful, the script executes exit 0 and calls the cleanup function which calls cleanup_success
+
+    If not successful (non-zero exit status), the script executes exit 1. This calls the cleanup function which calls the cleanup_failure function
+
+Now let's look at our command that may or may not error.
+
+    If touch file.txt is not commented out, cat file.txt will not error and the $? special variable will have a value of 0.
+    If touch file.txt is commented out, cat file.txt will error $? will have a non-zero value.
+
+If the script includes the touch file.txt command the output is:
+text
+
+Working with tmp directory.
+Simulating success...
+Cleaning up after success...
+success.txt
+
+If the script does not include touch file.txt, the output is:
+text
+
+Working with tmp directory.
+Simulating failure...
+Cleaning up after failure...
+fail.txt
+
+Summary and Next Steps
+
+Great job! In this lesson, you learned how to:
+
+    Define cleanup functions to manage resources.
+    Use the trap command to execute cleanup functions on script exit.
+    Handle various signals like EXIT and INT with specific cleanup commands.
+    Manage multiple exit statuses using the trap command to ensure proper cleanup for successful and failed script executions.
+
+Now it's time to put your new knowledge into practice! Head over to the practice section to try these concepts on your own. By practicing, you'll gain confidence and become adept at writing scripts that handle resources efficiently. Happy scripting!

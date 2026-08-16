@@ -1,0 +1,167 @@
+Introduction to Echo Text Control in Bash
+
+Welcome to your first lesson on text processing with Bash! In this lesson, we'll dive deep into the echo command. As you know, the echo command in Bash allows you to print text to the terminal. Though it may seem simple, the echo command is powerful and versatile, and mastering it is essential for formatting messages, debugging scripts, and more. Now, let's dive into the advanced text manipulation with echo.
+Suppressing New Lines
+
+By default, echo adds a newline character at the end of the output. However, you can suppress this behavior using the -n option.
+Shell
+
+#!/bin/bash
+# Default new line
+echo "Greetings"
+echo "Universe"
+
+# Suppress new line
+echo -n "Hello"  # Prints "Hello" without newline
+echo "World"    # Prints "World" on the same line as "Hello"
+
+Output:
+text
+
+Greetings
+Universe
+
+HelloWorld
+
+The first two echo commands by default add a new line at the end of the output. This results in "Greetings" and "Universe" being printed on new lines. By including -n before "Hello", the new line is suppressed resulting in "Hello" and "World" being printed on the same line.
+Escape Characters
+
+Escape characters are special sequences in a string that denote a particular character that cannot be easily typed or is otherwise reserved. In Bash, escape characters are introduced with a backslash (). They allow you to include characters in your output that have special meanings or are not readily available on the keyboard. To include escape characters in a string, you use the syntax:
+Shell
+
+echo -e "..."
+
+When you use the -e option with the echo command, these escape sequences are interpreted and displayed as their corresponding special characters.
+
+Some common escape characters are:
+
+    \n for a new line
+    \t for a tab
+    \\\ for a backslash
+    \" for a quote
+
+Let's look at some examples!
+Adding New Lines
+
+\n is an escape character that represents a newline in a string. When used with the echo -e, it instructs the terminal to move the cursor to the beginning of the next line, effectively splitting the text at that point into multiple lines. Here's an example:
+Shell
+
+#!/bin/bash
+echo -e "This is line 1.\nThis is line 2." 
+
+Output:
+text
+
+This is line 1.
+This is line 2.
+
+Using \n, you can now print multiple lines with a single echo command.
+
+In contrast, omitting -e in the above statement would display:
+text
+
+This is line 1.\nThis is line 2.
+
+Adding Tab Spaces
+
+\t is an escape character that represents a horizontal tab in a string. When used with echo -e, it inserts a tab space at the specified position in the text, creating a gap between text segments. In Bash, \t is typically 4 to 8 spaces but it is configurable. Here's an example:
+Shell
+
+#!/bin/bash
+echo -e "Column1 \tColumn2 \tColumn3"
+
+The output is:
+text
+
+Column1    Column2    Column3
+
+The \t special character is great for formatting output into columns or aligning text.
+Printing Double Quotes
+
+Double quotes are used to define string literals. When you open a string with a double quote ("), Bash expects the string to be closed by the next double quote. For example, "Name: "Cosmo" " results in an error because Bash interprets the quote before C as the closing quote of the string. To include double quotes in a string, you add a \ beforehand. Let's look at an example:
+Shell
+
+#!/bin/bash
+echo -e "Welcome to this lesson titled \"Text Formatting with Echo\""
+
+The output is:
+text
+
+Welcome to this lesson titled "Text Formatting with Echo"
+
+Including quotes in your strings is essential for properly formatting quoted phrases or titles.
+Printing Backslashes
+
+Windows-style file paths use backslashes (\) as separators between directory levels, which is different from Unix-like systems that use forward slashes (/). You might be wondering how to include a \ in such a string. Bash expects the text after \ to be an escape character that has special meaning like n or t. Let's take a look at an example.
+Shell
+
+echo -e "C:\temp"
+
+The output is:
+text
+
+C:      emp
+
+Bash interprets the t in temp as the tab character. Just like n and t, \ is also an escape character. To include a \ in a string, you just use \\\. For example:
+Shell
+
+#!/bin/bash
+echo -e "C:\\\Users\\\Cosmo\\\report.txt"
+
+The output is:
+text
+
+C:\Users\Cosmo\report.txt
+
+Using \\\ is essential for correctly displaying file paths or other text containing backslashes in your output.
+Displaying Colored Text
+
+The echo command can also be used to display colored text using ANSI escape codes. The syntax to change the color of text is:
+Shell
+
+echo -e "\e[<ANSI_code>m<Your text>\e[0m"
+
+    \e: This initiates the ANSI escape sequence.
+    [<ANSI_code>m: This is the ANSI escape code for setting text formatting attributes, such as color. The <ANSI_code> is a specific number that represents a particular color.
+        <Your text> is the actual text you want to print in the specified color.
+    \e[0m: This sequence resets the text attributes (including color) back to their default settings. This ensures that any text printed after this sequence appears in the default color and formatting.
+
+Let's take a look at an example:
+Shell
+
+#!/bin/bash
+echo -e "\e[31mThis text is red.\e[0m"  # Prints red text
+echo -e "\e[32mThis text is green.\e[0m"  # Prints green text
+
+    \e[31m starts red-colored text.
+    \e[32m starts green-colored text.
+    \e[0m resets the color back to the default.
+
+The output is:
+
+This text is red.This text is red.
+This text is green.This text is green.
+
+Here is a list of some common color codes:
+
+    30: Black
+    31: Red
+    32: Green
+    33: Yellow
+    34: Blue
+    35: Magenta
+    36: Cyan
+    37: White
+
+Summary and Next Steps
+
+Fantastic work! In this lesson, you learned how to:
+
+    Use -n to suppress new lines
+    Use -e to enable backslash escapes
+    Use \n to create new lines
+    Use \t to insert tab spaces
+    Print special characters like backslashes (\\\) and quotes (\").
+    Display colored text using ANSI escape codes.
+
+As you continue with this course, you'll integrate these techniques with more advanced text-processing tools like grep, sed, and awk. Now, jump into the practice section to reinforce what you've learned and get hands-on experience with echo. Happy scripting!
