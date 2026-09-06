@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang=en>
+<header>
+    <title>Exercise</title>
+</header>
+<body>
+<div id="parent">
+    <button id="child">Click Me!</button>
+</div>
+
+<script>
+// Assign event to parent
+document.getElementById("parent").onclick = function() {
+    alert('Div clicked!');
+};
+// Assign event to child
+document.getElementById("child").onclick = function() {
+    alert('Button clicked!');
+};
+</script>
+</body>
+</html>
