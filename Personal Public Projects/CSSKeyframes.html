@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>keyframes</title>
+</head>
+
+<body>
+    <!-- An example of using keyframes to create an animation -->
+    <style>
+        @keyframes moving-box {
+
+            /* At the start, the box is at the left */
+            0% {
+                left: 0px;
+                transform: translateX(0);
+            }
+
+            /* At the halfway point, the box moves to the right */
+            50% {
+                left: 100%;
+                transform: translateX(-100%);
+            }
+
+            /* In the end, the box returns to the left */
+            100% {
+                left: 0px;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bouncing-circle {
+            0% {
+                top: 0;
+                transform: translateY(0);
+            }
+
+            50% {
+                top: 100%;
+                transform: translateY(-100%);
+            }
+
+            100% {
+                top: 0;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes triangle {
+            0% {
+                left: 0;
+                top: 100%;
+                transform: translateX(0) translateY(-100%);
+            }
+
+            25% {
+                left: 50%;
+                top: 0;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                left: 100%;
+                top: 100%;
+                transform: translateX(-100%) translateY(-100%);
+            }
+
+            75% {
+                left: 50%;
+                top: 0;
+                transform: translateX(-50%) translateY(0%);
+            }
+
+            100% {
+                left: 0;
+                top: 100%;
+                transform: translateX(0) translateY(-100%);
+            }
+        }
+
+        @keyframes parabole-x {
+
+            0%,
+            100% {
+                left: 0;
+            }
+
+            50% {
+                left: calc(100% - 80px);
+            }
+        }
+
+        @keyframes parabole-y {
+
+            0%,
+            100% {
+                top: 100%;
+                transform: translateY(-100%);
+                animation-timing-function: ease-out;
+            }
+
+            50% {
+                top: 0;
+                transform: translateY(0);
+                animation-timing-function: ease-in;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(-50%) scale(0.333);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-50%) scale(1);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fade {
+
+            0%,
+            100% {
+                background-color: #000000;
+            }
+
+            50% {
+                background-color: #f4f4f4;
+            }
+        }
+
+        @keyframes antifade {
+
+            0%,
+            100% {
+                border: 2px solid #f4f4f4;
+                filter: drop-shadow(0 0 2px #f4f4f4);
+            }
+
+            50% {
+                border: 2px solid #000000;
+                filter: drop-shadow(0 0 2px #000000);
+            }
+        }
+
+        #container {
+            position: relative;
+            height: 400px;
+            width: 400px;
+            border: 2px solid #000000;
+            margin: 300px;
+            animation: fade 12s ease-in-out infinite;
+        }
+
+        .triangle {
+            position: absolute;
+            height: 300px;
+            width: 300px;
+            left: 50%;
+            top: 50%;
+            background-color: #DDEB9D;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        .box {
+            position: absolute;
+            height: 150px;
+            width: 150px;
+            margin: 10px 0px;
+            background-color: #4CAF50;
+            animation: moving-box 11s linear infinite, antifade 12s ease-in-out infinite;
+        }
+
+        .circle {
+            position: absolute;
+            left: 25%;
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            background-color: #EB5353;
+            animation: bouncing-circle 7s linear infinite, antifade 12s ease-in-out infinite;
+        }
+
+        .little-circle {
+            position: absolute;
+            left: 0;
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            background-color: #F9D923;
+            animation:
+                parabole-x 13s linear infinite,
+                parabole-y 6.5s ease-in-out infinite, antifade 12s ease-in-out infinite;
+        }
+
+        .star {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #A0C878;
+            transform-origin: center;
+            clip-path: polygon(50% 0%,
+                    61% 35%,
+                    98% 35%,
+                    68% 57%,
+                    79% 91%,
+                    50% 70%,
+                    21% 91%,
+                    32% 57%,
+                    2% 35%,
+                    39% 35%);
+            animation: spin 6s linear infinite;
+        }
+
+
+        .box:hover,
+        .circle:hover,
+        .little-circle:hover,
+        .triangle:hover,
+        .star:hover {
+            animation-play-state: paused;
+        }
+    </style>
+    <div id="container">
+        <div class="triangle"></div>
+        <div class="box"></div> <!-- Here's our animated box -->
+        <div class="circle"></div>
+        <div class="little-circle">
+            <div class="star"></div>
+        </div>
+        <div class="star" style="left: 16px; bottom: 16px;"></div>
+    </div>
+</body>
+
+</html>
