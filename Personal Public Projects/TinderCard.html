@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 300px;
+            height: 420px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            user-select: none;
+            /* Evita seleccionar texto al arrastrar */
+            touch-action: none;
+            /* Evita que la pantalla haga scroll en móvil */
+            cursor: grab;
+        }
+
+        .card:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card" id="card">Deslízame 👈👉</div>
+
+    <script>
+        const card = document.getElementById('card');
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        // 1. Al presionar la tarjeta
+        card.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            card.style.transition = 'none'; // Quita la animación suave mientras arrastras
+            card.setPointerCapture(e.pointerId);
+        });
+
+        // 2. Al mover el mouse o dedo
+        card.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX - startX;
+            const rotation = currentX * 0.05; // Inclina un poco la tarjeta
+            card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+        });
+
+        // 3. Al soltar la tarjeta
+        card.addEventListener('pointerup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            card.style.transition = 'transform 0.3s ease'; // Reactiva la animación
+
+            const threshold = 120; // Distancia mínima para aceptar/rechazar
+
+            if (currentX > threshold) {
+                // Deslizado a la derecha (Like)
+                card.style.transform = 'translateX(100vw) rotate(30deg)';
+                console.log('¡Derecha! (Aceptado)');
+            } else if (currentX < -threshold) {
+                // Deslizado a la izquierda (Nope)
+                card.style.transform = 'translateX(-100vw) rotate(-30deg)';
+                console.log('¡Izquierda! (Rechazado)');
+            } else {
+                // No llegó al límite, regresa al centro
+                card.style.transform = 'translateX(0px) rotate(0deg)';
+            }
+
+            currentX = 0;
+        });
+    </script>
+
+</body>
+
+</html>
