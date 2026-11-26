@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="greetUser(showGreeting)">Say Hi!</button>
+    <p id="demo">What are you waiting? Clik the button!</p>
+    <script>
+        function showGreeting(name) {
+            // The 'callback' we want to execute after the name is entered
+            document.getElementById("demo").innerHTML = "Hi " + name;
+        }
+        function greetUser(callback) {
+            // The 'prompt' function displays a dialog box that prompts the user for input.
+            // It takes two arguments: a message to display, and a default value for the input field.
+            let name = prompt("Please enter your name", "Harry Potter");
+            callback(name);
+        }
+    </script>
+</body>
+
+</html>
